@@ -24,7 +24,11 @@ const Home = props => {
       <View>
         <View style={styles.topSection}>
           <View style={styles.flexRow}>
-            <Pressable style={[styles.topButton, styles.flexRow]}>
+            <Pressable
+              style={[styles.topButton, styles.flexRow]}
+              onPress={() => {
+                props.navigation.navigate('FindReceiver');
+              }}>
               <Ionicons name="arrow-up" size={28} color="#608DE2" />
               <Text style={[styles.nunito700, styles.topButtonTxt]}>
                 Transfer
