@@ -4,6 +4,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from './src/Screens/SplashScreen/Component.js';
 import Home from './src/Screens/Home/Home';
 import Topup from './src/Screens/Topup/Topup.js';
+import FindReceiver from './src/Screens/TransferFlow/FindReceiver/FindReceiver.js';
+import InputAmount from './src/Screens/TransferFlow/InputAmount/InputAmount.js';
 
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
@@ -23,6 +25,16 @@ const App = () => {
         <StackScreen
           name="Topup"
           component={Topup}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="FindReceiver"
+          component={FindReceiver}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="InputAmount"
+          component={InputAmount}
           options={{headerShown: false}}
         />
       </StackNav>
