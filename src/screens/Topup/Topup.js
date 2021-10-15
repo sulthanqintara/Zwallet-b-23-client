@@ -12,7 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import TopUpCard from '../../components/TopUpCard';
 import {TextInput} from 'react-native-gesture-handler';
 
-const Topup = () => {
+const Topup = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [amount, setAmount] = useState(0);
 
@@ -80,7 +80,12 @@ const Topup = () => {
       </Modal>
       <View style={styles.header}>
         <View style={styles.topHeaderContainer}>
-          <Ionicons name="arrow-back" color="white" size={28} />
+          <Pressable
+            onPress={() => {
+              props.navigation.goBack();
+            }}>
+            <Ionicons name="arrow-back" color="white" size={28} />
+          </Pressable>
           <Text style={[styles.headerTitle, styles.nunito700]}>Top Up</Text>
         </View>
         <View style={styles.bottomHeaderContainer}>
