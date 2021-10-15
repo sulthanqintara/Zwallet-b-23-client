@@ -6,7 +6,7 @@ import styles from './Style';
 import profilePlaceHolder from '../../assets/img/profile.png';
 import SpotifyIcon from '../../assets/img/spotify.png';
 
-const Home = () => {
+const Home = props => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -30,7 +30,11 @@ const Home = () => {
                 Transfer
               </Text>
             </Pressable>
-            <Pressable style={[styles.topButton, styles.flexRow]}>
+            <Pressable
+              style={[styles.topButton, styles.flexRow]}
+              onPress={() => {
+                props.navigation.navigate('Topup');
+              }}>
               <Ionicons name="add" size={36} color="#608DE2" />
               <Text style={[styles.nunito700, styles.topButtonTxt]}>
                 Top Up
@@ -42,7 +46,9 @@ const Home = () => {
               Transaction History
             </Text>
             <Pressable>
-              <Text style={[styles.seeAllTxt, styles.nunito400]}>See all</Text>
+              <Text style={[styles.seeAllTxt, styles.nunito400]}>
+                See details
+              </Text>
             </Pressable>
           </View>
         </View>

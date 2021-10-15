@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from './src/Screens/SplashScreen/Component.js';
 import Home from './src/Screens/Home/Home';
+import Topup from './src/Screens/Topup/Topup.js';
 
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
@@ -17,6 +18,11 @@ const App = () => {
         <StackScreen
           name="Home"
           component={Home}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="Topup"
+          component={Topup}
           options={{headerShown: false}}
         />
       </StackNav>
