@@ -10,6 +10,7 @@ import Login from './src/screens/Login/Login.js';
 import Register from './src/screens/Register/Register.js';
 import ResetPassword from './src/screens/ResetPassword/ResetPassword.js';
 import CreateNewPassword from './src/screens/ResetPassword/CreateNewPassword.js';
+import ConfirmOtp from './src/screens/ResetPassword/ConfirmOtp.js';
 import Profile from './src/screens/Profile/Profile.js';
 import PersonalInfo from './src/screens/PersonalInfo/PersonalInfo.js';
 
