@@ -11,6 +11,7 @@ import Register from './src/screens/Register/Register.js';
 import ResetPassword from './src/screens/ResetPassword/ResetPassword.js';
 import CreateNewPassword from './src/screens/ResetPassword/CreateNewPassword.js';
 import ConfirmOtp from './src/screens/ResetPassword/ConfirmOtp.js';
+import Confirmation from './src/screens/TransferFlow/Confirmation/Confirmation.js';
 
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
@@ -65,6 +66,11 @@ const App = () => {
         <StackScreen
           name="InputAmount"
           component={InputAmount}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="TransferConfirmation"
+          component={Confirmation}
           options={{headerShown: false}}
         />
       </StackNav>

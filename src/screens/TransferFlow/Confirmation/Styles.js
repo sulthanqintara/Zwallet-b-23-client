@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
+  flexRow: {flexDirection: 'row'},
   container: {
     flex: 1,
     backgroundColor: '#FAFCFF',
@@ -10,7 +11,6 @@ export default StyleSheet.create({
     fontWeight: '700',
   },
   nunito400: {fontFamily: 'NunitoSans-Regular'},
-  contentContainer: {flex: 1, paddingHorizontal: 16},
   header: {
     backgroundColor: '#6379F4',
     borderBottomEndRadius: 15,
@@ -25,28 +25,32 @@ export default StyleSheet.create({
     marginBottom: 40,
   },
   headerTitle: {color: 'white', fontSize: 20, marginLeft: 24},
-
-  nominalInput: {
-    fontSize: 42,
-    marginVertical: 20,
-    width: 'auto',
-    color: '#6379F4',
+  contentContainer: {flex: 1, paddingHorizontal: 16},
+  topCardContainer: {
+    justifyContent: 'space-between',
+    marginTop: 30,
   },
-  amountAvailable: {
-    textAlign: 'center',
-    color: '#7C7895',
+  topCard: {
+    backgroundColor: 'white',
+    height: 87,
+    width: 162,
+    borderRadius: 10,
+    padding: 15,
+    borderWidth: 1,
+  },
+  topCardTitleTxt: {
+    color: '#7A7886',
     fontSize: 16,
   },
-  notesContainer: {
-    borderBottomWidth: 1.5,
-    borderBottomColor: '#A9A9A9',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  notesInput: {
-    flex: 1,
-    marginLeft: 10,
+  topCardTxt: {fontSize: 18, color: '#514F5B', marginTop: 10},
+  bottomCard: {
+    width: 'auto',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    height: 87,
+    borderWidth: 1,
+    marginTop: 30,
+    padding: 15,
   },
   continueButton: {
     width: 'auto',
@@ -54,11 +58,7 @@ export default StyleSheet.create({
     height: 57,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 75,
+    marginTop: 30,
     justifyContent: 'center',
-  },
-  continueText: {
-    fontSize: 18,
-    color: 'white',
   },
 });
