@@ -101,4 +101,19 @@ export default StyleSheet.create({
     fontSize: 18,
     fontFamily: 'NunitoSans-SemiBold',
   },
+  wrapperInputOtp: {
+    flexDirection: 'row',
+    marginTop: 30,
+    justifyContent: 'space-between',
+  },
+  textInputOtp: {
+    borderRadius: 12,
+    width: 47,
+    height: 58,
+    borderColor: 'grey',
+    textAlign: 'center',
+    borderWidth: 1,
+    fontSize: 24,
+    fontFamily: 'NunitoSans-Bold',
+  },
 });

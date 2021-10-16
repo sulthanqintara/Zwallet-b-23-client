@@ -39,6 +39,11 @@ const App = () => {
           options={{headerShown: false}}
         />
         <StackScreen
+          name="Confirm-Otp"
+          component={ConfirmOtp}
+          options={{headerShown: false}}
+        />
+        <StackScreen
           name="Create-Password"
           component={CreateNewPassword}
           options={{headerShown: false}}
