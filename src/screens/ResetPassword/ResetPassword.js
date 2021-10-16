@@ -10,7 +10,7 @@ const ResetPassword = props => {
         <Text style={styles.title}>Zwallet</Text>
       </View>
       <View style={styles.content}>
-        <Text style={styles.textLogin}>Reset Password</Text>
+        <Text style={styles.textLogin}>Reset Password!</Text>
         <Text style={styles.descLogin}>
           Enter your Zwallet e-mail so we can send you a password reset link.
         </Text>
