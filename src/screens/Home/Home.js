@@ -10,9 +10,7 @@ const Home = props => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Pressable onPress={() => props.navigation.push('Profile')}>
-          <Image source={profilePlaceHolder} style={styles.profilePic} />
-        </Pressable>
+        <Image source={profilePlaceHolder} style={styles.profilePic} />
         <View style={styles.headerTextContainer}>
           <Text style={[styles.nunito400, styles.balanceTxt]}>Balance</Text>
           <Text style={[styles.nunito700, styles.balanceAmount]}>
