@@ -6,6 +6,10 @@ import Home from './src/Screens/Home/Home';
 import Topup from './src/Screens/Topup/Topup.js';
 import FindReceiver from './src/Screens/TransferFlow/FindReceiver/FindReceiver.js';
 import InputAmount from './src/Screens/TransferFlow/InputAmount/InputAmount.js';
+import Login from './src/Screens/Login/Login.js';
+import Register from './src/Screens/Register/Register.js';
+import ResetPassword from './src/Screens/ResetPassword/ResetPassword.js';
+import CreateNewPassword from './src/Screens/ResetPassword/CreateNewPassword.js';
 
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
@@ -15,6 +19,26 @@ const App = () => {
         <StackScreen
           name="SplashScreen"
           component={SplashScreen}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="Login"
+          component={Login}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="Register"
+          component={Register}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="Reset-Password"
+          component={ResetPassword}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="Create-Password"
+          component={CreateNewPassword}
           options={{headerShown: false}}
         />
         <StackScreen
