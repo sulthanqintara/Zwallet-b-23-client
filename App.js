@@ -10,6 +10,7 @@ import Login from './src/Screens/Login/Login.js';
 import Register from './src/Screens/Register/Register.js';
 import ResetPassword from './src/Screens/ResetPassword/ResetPassword.js';
 import CreateNewPassword from './src/Screens/ResetPassword/CreateNewPassword.js';
+import ConfirmOtp from './src/Screens/ResetPassword/ConfirmOtp.js';
 
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
@@ -34,6 +35,11 @@ const App = () => {
         <StackScreen
           name="Reset-Password"
           component={ResetPassword}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="Confirm-Otp"
+          component={ConfirmOtp}
           options={{headerShown: false}}
         />
         <StackScreen
