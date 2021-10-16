@@ -1,16 +1,16 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import SplashScreen from './src/Screens/SplashScreen/Component.js';
-import Home from './src/Screens/Home/Home';
-import Topup from './src/Screens/Topup/Topup.js';
-import FindReceiver from './src/Screens/TransferFlow/FindReceiver/FindReceiver.js';
-import InputAmount from './src/Screens/TransferFlow/InputAmount/InputAmount.js';
-import Login from './src/Screens/Login/Login.js';
-import Register from './src/Screens/Register/Register.js';
-import ResetPassword from './src/Screens/ResetPassword/ResetPassword.js';
-import CreateNewPassword from './src/Screens/ResetPassword/CreateNewPassword.js';
-import ConfirmOtp from './src/Screens/ResetPassword/ConfirmOtp.js';
+import SplashScreen from './src/screens/SplashScreen/Component.js';
+import Home from './src/screens/Home/Home';
+import Topup from './src/screens/Topup/Topup.js';
+import FindReceiver from './src/screens/TransferFlow/FindReceiver/FindReceiver.js';
+import InputAmount from './src/screens/TransferFlow/InputAmount/InputAmount.js';
+import Login from './src/screens/Login/Login.js';
+import Register from './src/screens/Register/Register.js';
+import ResetPassword from './src/screens/ResetPassword/ResetPassword.js';
+import CreateNewPassword from './src/screens/ResetPassword/CreateNewPassword.js';
+import ConfirmOtp from './src/screens/ResetPassword/ConfirmOtp.js';
 
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
