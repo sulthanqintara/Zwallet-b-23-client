@@ -71,7 +71,14 @@ const App = () => {
         <StackScreen
           name="PersonalInfo"
           component={PersonalInfo}
-          options={{headerTransparent: true}}
+          options={{
+            headerTransparent: true,
+            headerTitle: 'Personal Information',
+            headerTitleStyle: {
+              fontFamily: 'NunitoSans-Bold',
+              color: '#4D4B57',
+            },
+          }}
         />
       </StackNav>
     </NavigationContainer>

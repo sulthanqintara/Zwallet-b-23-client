@@ -10,7 +10,7 @@ const Home = props => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Pressable onPress={() => props.navigation.navigate('Profile')}>
+        <Pressable onPress={() => props.navigation.push('Profile')}>
           <Image source={profilePlaceHolder} style={styles.profilePic} />
         </Pressable>
         <View style={styles.headerTextContainer}>
