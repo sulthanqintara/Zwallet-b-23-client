@@ -20,6 +20,7 @@ import ManagePhoneNumber from './src/screens/ProfileContainer/PhoneNumber/Manage
 import ChangePIN from './src/screens/ProfileContainer/ChangePIN/ChangePIN.js';
 import NewPIN from './src/screens/ProfileContainer/ChangePIN/NewPIN.js';
 import Notifications from './src/screens/Notifications/Notifications.js';
+import TransferPin from './src/screens/TransferFlow/TransferPin/TransferPin.js';
 
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
@@ -79,6 +80,11 @@ const App = () => {
         <StackScreen
           name="TransferConfirmation"
           component={Confirmation}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="TransferPin"
+          component={TransferPin}
           options={{headerShown: false}}
         />
         <StackScreen
