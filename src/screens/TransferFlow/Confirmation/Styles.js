@@ -36,7 +36,6 @@ export default StyleSheet.create({
     width: 162,
     borderRadius: 10,
     padding: 15,
-    borderWidth: 1,
   },
   topCardTitleTxt: {
     color: '#7A7886',
@@ -48,7 +47,6 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     height: 87,
-    borderWidth: 1,
     marginTop: 30,
     padding: 15,
   },

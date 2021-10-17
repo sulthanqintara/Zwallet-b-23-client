@@ -52,7 +52,9 @@ const Confirmation = props => {
             <Text style={[styles.topCardTitleTxt, styles.nunito400]}>
               Amount
             </Text>
-            <Text style={[styles.topCardTxt, styles.nunito700]}>Rp100.000</Text>
+            <Text style={[styles.topCardTxt, styles.nunito700]}>
+              Rp{data.topUpNominal}
+            </Text>
           </View>
           <View style={styles.topCard}>
             <Text style={[styles.topCardTitleTxt, styles.nunito400]}>
@@ -86,13 +88,13 @@ const Confirmation = props => {
         <View style={styles.bottomCard}>
           <Text style={[styles.topCardTitleTxt, styles.nunito400]}>Notes</Text>
           <Text style={[styles.topCardTxt, styles.nunito700]}>
-            For buying some socks
+            {data.notes}
           </Text>
         </View>
         <Pressable
           style={styles.continueButton}
           onPress={() => {
-            navigation.navigate('TransferConfirmation', data);
+            navigation.navigate('TransferPin', data);
           }}>
           <Text style={[styles2.continueText, styles2.nunito700]}>
             Continue
