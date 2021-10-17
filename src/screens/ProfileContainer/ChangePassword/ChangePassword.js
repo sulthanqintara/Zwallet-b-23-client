@@ -4,10 +4,16 @@ import styles from './Style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ChangePassword = props => {
-  const [value, onChangeText] = useState(props.value);
-  const [visible, setVisibility] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState(props.value);
+  const [newPassword, setNewPassword] = useState(props.value);
+  const [repeatPassword, setRepeatPassword] = useState(props.value);
+  const [currentVisible, setCurrentVisible] = useState(false);
+  const [newVisible, setNewVisible] = useState(false);
+  const [repeatVisible, setRepeatVisible] = useState(false);
 
-  const icon = !visible ? 'eye-off-outline' : 'eye-outline';
+  const iconCurrent = !currentVisible ? 'eye-outline' : 'eye-off-outline';
+  const iconNew = !newVisible ? 'eye-outline' : 'eye-off-outline';
+  const iconRepeat = !repeatVisible ? 'eye-outline' : 'eye-off-outline';
 
   return (
     <View style={styles.container}>
@@ -20,43 +26,52 @@ const ChangePassword = props => {
           <View style={styles.passContainer}>
             <Ionicons name="lock-closed-outline" size={20} color="#000" />
             <TextInput
-              secureTextEntry={!visible}
+              secureTextEntry={!currentVisible}
               placeholder="Current Password"
               style={styles.textInput}
+              onChange={e => {
+                setCurrentPassword(e.nativeEvent.text);
+              }}
             />
             <Ionicons
-              name={icon}
+              name={iconCurrent}
               size={20}
               color="#000"
-              onPress={() => setVisibility(!visible)}
+              onPress={() => setCurrentVisible(!currentVisible)}
             />
           </View>
           <View style={styles.passContainer}>
             <Ionicons name="lock-closed-outline" size={20} color="#000" />
             <TextInput
-              secureTextEntry={!visible}
+              secureTextEntry={!newVisible}
               placeholder="New Password"
               style={styles.textInput}
+              onChange={e => {
+                setNewPassword(e.nativeEvent.text);
+              }}
             />
             <Ionicons
-              name={icon}
+              name={iconNew}
               size={20}
               color="#000"
-              onPress={() => setVisibility(!visible)}
+              onPress={() => setNewVisible(!newVisible)}
             />
           </View>
           <View style={styles.passContainer}>
             <Ionicons name="lock-closed-outline" size={20} color="#000" />
             <TextInput
-              secureTextEntry={!visible}
+              secureTextEntry={!repeatVisible}
               placeholder="Repeat Password"
               style={styles.textInput}
+              onChange={e => {
+                setRepeatPassword(e.nativeEvent.text);
+              }}
             />
             <Ionicons
-              name={icon}
+              name={iconRepeat}
               size={20}
               color="#000"
-              onPress={() => setVisibility(!visible)}
+              onPress={() => setRepeatVisible(!repeatVisible)}
             />
           </View>
         </View>
