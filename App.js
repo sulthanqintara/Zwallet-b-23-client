@@ -21,6 +21,7 @@ import ChangePIN from './src/screens/ProfileContainer/ChangePIN/ChangePIN.js';
 import NewPIN from './src/screens/ProfileContainer/ChangePIN/NewPIN.js';
 import Notifications from './src/screens/Notifications/Notifications.js';
 import TransferPin from './src/screens/TransferFlow/TransferPin/TransferPin.js';
+import FinalTransfer from './src/screens/TransferFlow/FinalTransfer/FinalTransfer.js';
 
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
@@ -85,6 +86,11 @@ const App = () => {
         <StackScreen
           name="TransferPin"
           component={TransferPin}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="FinalTransfer"
+          component={FinalTransfer}
           options={{headerShown: false}}
         />
         <StackScreen

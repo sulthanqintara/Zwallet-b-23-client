@@ -23,7 +23,7 @@ const Confirmation = props => {
     'Dec',
   ];
   const data = route.params;
-  const dateNow = new Date(); // 2009-11-10
+  const dateNow = new Date();
   const month = monthNames[dateNow.getMonth()];
   return (
     <View style={styles.container}>
@@ -94,7 +94,10 @@ const Confirmation = props => {
         <Pressable
           style={styles.continueButton}
           onPress={() => {
-            navigation.navigate('TransferPin', data);
+            navigation.navigate('TransferPin', {
+              ...data,
+              time: dateNow.toISOString(),
+            });
           }}>
           <Text style={[styles2.continueText, styles2.nunito700]}>
             Continue

@@ -1,0 +1,51 @@
+import {StyleSheet} from 'react-native';
+
+export default StyleSheet.create({
+  container: {flex: 1, backgroundColor: '#FAFCFF'},
+  nunito700: {fontFamily: 'NunitoSans-Bold'},
+  nunito400: {fontFamily: 'NunitoSans-Regular'},
+  flexRow: {flexDirection: 'row'},
+  header: {
+    backgroundColor: '#6379F4',
+    borderBottomEndRadius: 15,
+    borderBottomStartRadius: 15,
+    paddingHorizontal: 16,
+    paddingTop: 50,
+    paddingBottom: 20,
+  },
+  headerTitle: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20,
+  },
+  contentContainer: {paddingHorizontal: 16},
+  checkMark: {marginTop: 40, textAlign: 'center'},
+  contentTitle: {textAlign: 'center', marginTop: 30, fontSize: 22},
+  failedText: {
+    marginTop: 20,
+    marginBottom: 40,
+    textAlign: 'center',
+    fontSize: 16,
+    lineHeight: 27,
+  },
+  cardContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+  },
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    elevation: 2,
+    flex: 1,
+    padding: 15,
+  },
+  gap: {width: 10},
+  cardTitle: {fontSize: 16, color: '#7A7886', marginBottom: 10},
+  cardSubTitle: {fontSize: 18, color: '#514F5B'},
+  contentSubTitle: {marginTop: 30, fontSize: 18, marginBottom: 25},
+  contactTitle: {fontSize: 16},
+  profilePic: {width: 56, height: 56, borderRadius: 10, marginRight: 15},
+  contactContainer: {justifyContent: 'space-around'},
+  buttonMargin: {marginVertical: 30},
+});

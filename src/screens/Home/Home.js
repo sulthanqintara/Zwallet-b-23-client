@@ -1,5 +1,12 @@
-import React from 'react';
-import {View, Text, Image, Pressable} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  Pressable,
+  BackHandler,
+  ToastAndroid,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import styles from './Style';
@@ -7,6 +14,40 @@ import profilePlaceHolder from '../../assets/img/profile.png';
 import SpotifyIcon from '../../assets/img/spotify.png';
 
 const Home = props => {
+  const [backButton, setBackButton] = useState(0);
+  const [timer, setTimer] = useState(Date.now());
+
+  useEffect(() => {
+    const backAction = () => {
+      const exitTimer = Date.now();
+      if (backButton === 0) {
+        setBackButton(backButton + 1);
+        ToastAndroid.show(
+          'Press again to exit the application',
+          ToastAndroid.SHORT,
+        );
+        setTimer(Date.now());
+      }
+      if (backButton === 1) {
+        if (timer < exitTimer - 3000) {
+          ToastAndroid.show(
+            'Press again to exit the application',
+            ToastAndroid.SHORT,
+          );
+          setTimer(Date.now());
+        } else {
+          BackHandler.exitApp();
+        }
+      }
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+  }, [backButton, timer]);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
