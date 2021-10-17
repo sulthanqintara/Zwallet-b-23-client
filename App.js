@@ -14,6 +14,11 @@ import ConfirmOtp from './src/screens/ResetPassword/ConfirmOtp.js';
 import Confirmation from './src/screens/TransferFlow/Confirmation/Confirmation.js';
 import Profile from './src/screens/Profile/Profile.js';
 import PersonalInfo from './src/screens/PersonalInfo/PersonalInfo.js';
+import ChangePassword from './src/screens/ChangePassword/ChangePassword.js';
+import AddPhoneNumber from './src/screens/PhoneNumber/AddPhoneNumber';
+import ManagePhoneNumber from './src/screens/PhoneNumber/ManagePhoneNumber';
+import ChangePIN from './src/screens/ChangePIN/ChangePIN.js';
+import Notifications from './src/screens/Notifications/Notifications.js';
 
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
@@ -86,6 +91,71 @@ const App = () => {
           options={{
             headerTransparent: true,
             headerTitle: 'Personal Information',
+            headerTitleStyle: {
+              fontFamily: 'NunitoSans-Bold',
+              fontSize: 20,
+              color: '#4D4B57',
+            },
+          }}
+        />
+        <StackScreen
+          name="ChangePassword"
+          component={ChangePassword}
+          options={{
+            headerTransparent: true,
+            headerTitle: 'Change Password',
+            headerTitleStyle: {
+              fontFamily: 'NunitoSans-Bold',
+              fontSize: 20,
+              color: '#4D4B57',
+            },
+          }}
+        />
+        <StackScreen
+          name="AddPhoneNumber"
+          component={AddPhoneNumber}
+          options={{
+            headerTransparent: true,
+            headerTitle: 'Add Phone Number',
+            headerTitleStyle: {
+              fontFamily: 'NunitoSans-Bold',
+              fontSize: 20,
+              color: '#4D4B57',
+            },
+          }}
+        />
+        <StackScreen
+          name="ManagePhoneNumber"
+          component={ManagePhoneNumber}
+          options={{
+            headerTransparent: true,
+            headerTitle: 'Manage Phone Number',
+            headerTitleStyle: {
+              fontFamily: 'NunitoSans-Bold',
+              fontSize: 20,
+              color: '#4D4B57',
+            },
+          }}
+        />
+        <StackScreen
+          name="ChangePIN"
+          component={ChangePIN}
+          options={{
+            headerTransparent: true,
+            headerTitle: 'Change PIN',
+            headerTitleStyle: {
+              fontFamily: 'NunitoSans-Bold',
+              fontSize: 20,
+              color: '#4D4B57',
+            },
+          }}
+        />
+        <StackScreen
+          name="Notifications"
+          component={Notifications}
+          options={{
+            headerTransparent: true,
+            headerTitle: 'Notifications',
             headerTitleStyle: {
               fontFamily: 'NunitoSans-Bold',
               fontSize: 20,

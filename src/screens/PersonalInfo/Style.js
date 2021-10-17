@@ -58,4 +58,9 @@ export default StyleSheet.create({
     fontFamily: 'NunitoSans-SemiBold',
     fontSize: 14,
   },
+  addPhone: {
+    fontFamily: 'NunitoSans-Bold',
+    fontSize: 22,
+    color: '#6379F4',
+  },
 });

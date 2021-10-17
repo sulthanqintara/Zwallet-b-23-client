@@ -24,15 +24,21 @@ const Profile = props => {
             <Text style={styles.buttonText}>Personal Information</Text>
             <Ionicons name="arrow-forward" size={30} color="#000" />
           </Pressable>
-          <Pressable style={styles.profileButton}>
+          <Pressable
+            style={styles.profileButton}
+            onPress={() => props.navigation.navigate('ChangePassword')}>
             <Text style={styles.buttonText}>Change Password</Text>
             <Ionicons name="arrow-forward" size={30} color="#000" />
           </Pressable>
-          <Pressable style={styles.profileButton}>
+          <Pressable
+            style={styles.profileButton}
+            onPress={() => props.navigation.navigate('ChangePIN')}>
             <Text style={styles.buttonText}>Change PIN</Text>
             <Ionicons name="arrow-forward" size={30} color="#000" />
           </Pressable>
-          <Pressable style={styles.profileButton}>
+          <Pressable
+            style={styles.profileButton}
+            onPress={() => props.navigation.navigate('Notifications')}>
             <Text style={styles.buttonText}>Notification</Text>
             <Switch />
           </Pressable>
