@@ -18,6 +18,7 @@ import ChangePassword from './src/screens/ChangePassword/ChangePassword.js';
 import AddPhoneNumber from './src/screens/PhoneNumber/AddPhoneNumber';
 import ManagePhoneNumber from './src/screens/PhoneNumber/ManagePhoneNumber';
 import ChangePIN from './src/screens/ChangePIN/ChangePIN.js';
+import NewPIN from './src/screens/ChangePIN/NewPIN.js';
 import Notifications from './src/screens/Notifications/Notifications.js';
 
 const App = () => {
@@ -140,6 +141,19 @@ const App = () => {
         <StackScreen
           name="ChangePIN"
           component={ChangePIN}
+          options={{
+            headerTransparent: true,
+            headerTitle: 'Change PIN',
+            headerTitleStyle: {
+              fontFamily: 'NunitoSans-Bold',
+              fontSize: 20,
+              color: '#4D4B57',
+            },
+          }}
+        />
+        <StackScreen
+          name="NewPIN"
+          component={NewPIN}
           options={{
             headerTransparent: true,
             headerTitle: 'Change PIN',
