@@ -25,7 +25,13 @@ export default StyleSheet.create({
     marginBottom: 40,
   },
   headerTitle: {color: 'white', fontSize: 20, marginLeft: 24},
-  nominalInput: {fontSize: 42, marginVertical: 20, width: 'auto'},
+
+  nominalInput: {
+    fontSize: 42,
+    marginVertical: 20,
+    width: 'auto',
+    color: '#6379F4',
+  },
   amountAvailable: {
     textAlign: 'center',
     color: '#7C7895',
@@ -40,6 +46,19 @@ export default StyleSheet.create({
   },
   notesInput: {
     flex: 1,
-    color: 'green',
+    marginLeft: 10,
+  },
+  continueButton: {
+    width: 'auto',
+    backgroundColor: '#6379F4',
+    height: 57,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 75,
+    justifyContent: 'center',
+  },
+  continueText: {
+    fontSize: 18,
+    color: 'white',
   },
 });
