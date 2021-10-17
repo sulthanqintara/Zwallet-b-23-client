@@ -12,13 +12,13 @@ import ResetPassword from './src/screens/ResetPassword/ResetPassword.js';
 import CreateNewPassword from './src/screens/ResetPassword/CreateNewPassword.js';
 import ConfirmOtp from './src/screens/ResetPassword/ConfirmOtp.js';
 import Confirmation from './src/screens/TransferFlow/Confirmation/Confirmation.js';
-import Profile from './src/screens/Profile/Profile.js';
-import PersonalInfo from './src/screens/PersonalInfo/PersonalInfo.js';
-import ChangePassword from './src/screens/ChangePassword/ChangePassword.js';
-import AddPhoneNumber from './src/screens/PhoneNumber/AddPhoneNumber';
-import ManagePhoneNumber from './src/screens/PhoneNumber/ManagePhoneNumber';
-import ChangePIN from './src/screens/ChangePIN/ChangePIN.js';
-import NewPIN from './src/screens/ChangePIN/NewPIN.js';
+import Profile from './src/screens/ProfileContainer/Profile/Profile.js';
+import PersonalInfo from './src/screens/ProfileContainer/PersonalInfo/PersonalInfo.js';
+import ChangePassword from './src/screens/ProfileContainer/ChangePassword/ChangePassword.js';
+import AddPhoneNumber from './src/screens/ProfileContainer/PhoneNumber/AddPhoneNumber';
+import ManagePhoneNumber from './src/screens/ProfileContainer/PhoneNumber/ManagePhoneNumber';
+import ChangePIN from './src/screens/ProfileContainer/ChangePIN/ChangePIN.js';
+import NewPIN from './src/screens/ProfileContainer/ChangePIN/NewPIN.js';
 import Notifications from './src/screens/Notifications/Notifications.js';
 
 const App = () => {

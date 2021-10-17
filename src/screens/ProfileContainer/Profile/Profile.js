@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Pressable, Switch, Image} from 'react-native';
-import profilePlaceHolder from '../../assets/img/profile.png';
+import profilePlaceHolder from '../../../assets/img/profile.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './Style';
 
