@@ -7,8 +7,7 @@ const ChangePIN = props => {
       <View style={styles.content}>
         <View style={styles.pinArea}>
           <Text style={styles.passage}>
-            Enter your current 6 digits Zwallet PIN below to continue to the
-            next steps.
+            Type your new 6 digits security PIN to use in Zwallet.
           </Text>
           <View style={styles.wrapperInputOtp}>
             <TextInput
@@ -46,8 +45,8 @@ const ChangePIN = props => {
         <View style={styles.buttonArea}>
           <Pressable
             style={styles.changeButton}
-            onPress={() => props.navigation.navigate('NewPIN')}>
-            <Text style={styles.buttonText}>Continue</Text>
+            onPress={() => props.navigation.replace('Profile')}>
+            <Text style={styles.buttonText}>Change PIN</Text>
           </Pressable>
         </View>
       </View>
