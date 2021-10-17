@@ -12,6 +12,8 @@ import ResetPassword from './src/screens/ResetPassword/ResetPassword.js';
 import CreateNewPassword from './src/screens/ResetPassword/CreateNewPassword.js';
 import ConfirmOtp from './src/screens/ResetPassword/ConfirmOtp.js';
 import Confirmation from './src/screens/TransferFlow/Confirmation/Confirmation.js';
+import Profile from './src/screens/Profile/Profile.js';
+import PersonalInfo from './src/screens/PersonalInfo/PersonalInfo.js';
 
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
@@ -72,6 +74,24 @@ const App = () => {
           name="TransferConfirmation"
           component={Confirmation}
           options={{headerShown: false}}
+        />
+        <StackScreen
+          name="Profile"
+          component={Profile}
+          options={{headerTransparent: true, headerTitle: ''}}
+        />
+        <StackScreen
+          name="PersonalInfo"
+          component={PersonalInfo}
+          options={{
+            headerTransparent: true,
+            headerTitle: 'Personal Information',
+            headerTitleStyle: {
+              fontFamily: 'NunitoSans-Bold',
+              fontSize: 20,
+              color: '#4D4B57',
+            },
+          }}
         />
       </StackNav>
     </NavigationContainer>
