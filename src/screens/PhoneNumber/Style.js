@@ -3,33 +3,27 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: '#FAFCFF',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
   },
   content: {
-    marginVertical: 10,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '100%',
     marginHorizontal: 10,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: '100%',
+    width: '90%',
+  },
+  phoneArea: {
+    marginTop: 100,
+    width: '100%',
   },
   passage: {
+    textAlign: 'center',
     fontFamily: 'NunitoSans-Regular',
     fontSize: 16,
     color: '#7A7886',
-  },
-  passArea: {
-    marginTop: 50,
-    height: '50%',
-    width: '100%',
-    justifyContent: 'space-around',
-  },
-  passContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'stretch',
-    width: '100%',
-    paddingHorizontal: 10,
   },
   textInput: {
     borderBottomColor: '#A9A9A9',
@@ -66,5 +60,30 @@ export default StyleSheet.create({
     fontFamily: 'NunitoSans-Bold',
     fontSize: 18,
     color: '#FFFFFF',
+  },
+  boxArea: {
+    marginTop: 30,
+    backgroundColor: '#FFF',
+    elevation: 0.4,
+    borderRadius: 10,
+    height: '30%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  numberArea: {
+    justifyContent: 'space-evenly',
+    height: '100%',
+  },
+  numberHeading: {
+    fontFamily: 'NunitoSans-Regular',
+    fontSize: 16,
+    color: '#7A7886',
+  },
+  numberContent: {
+    fontFamily: 'NunitoSans-Bold',
+    fontSize: 22,
+    color: '#514F5B',
   },
 });

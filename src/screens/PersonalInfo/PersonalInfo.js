@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import styles from './Style';
 
-const PersonalInfo = () => {
+const PersonalInfo = props => {
+  const havePhone = true;
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -25,13 +26,26 @@ const PersonalInfo = () => {
             <Text style={styles.boxHeading}>Verified E-mail</Text>
             <Text style={styles.boxContent}>pewdiepie1@gmail.com</Text>
           </View>
-          <View style={styles.phoneData}>
-            <View>
-              <Text style={styles.boxHeading}>Phone Number</Text>
-              <Text style={styles.boxContent}>+62 813-9387-7946</Text>
+          {havePhone ? (
+            <View style={styles.phoneData}>
+              <View>
+                <Text style={styles.boxHeading}>Phone Number</Text>
+                <Text style={styles.boxContent}>+62 813-9387-7946</Text>
+              </View>
+              <Pressable
+                onPress={() => props.navigation.navigate('ManagePhoneNumber')}>
+                <Text style={styles.manage}>Manage</Text>
+              </Pressable>
             </View>
-            <Text style={styles.manage}>Manage</Text>
-          </View>
+          ) : (
+            <View style={styles.personalData}>
+              <Text style={styles.boxHeading}>Phone Number</Text>
+              <Pressable
+                onPress={() => props.navigation.navigate('AddPhoneNumber')}>
+                <Text style={styles.addPhone}>Add Phone Number</Text>
+              </Pressable>
+            </View>
+          )}
         </View>
       </View>
     </View>
