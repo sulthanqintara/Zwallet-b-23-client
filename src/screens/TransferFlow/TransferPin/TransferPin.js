@@ -7,7 +7,9 @@ import styles2 from '../Confirmation/Styles';
 import Styles from './Styles';
 
 const TransferPin = props => {
+  const {route, navigation} = props;
   const [pin, setPin] = useState('');
+  const data = route.params;
   const numPadHandler = num => {
     if (pin.length < 6) {
       return setPin(pin + num);
@@ -15,7 +17,6 @@ const TransferPin = props => {
   };
   return (
     <View style={styles2.container}>
-      {console.log(pin)}
       <View style={styles2.header}>
         <View style={[styles2.topHeaderContainer, Styles.topHeaderContainer]}>
           <Pressable
@@ -136,7 +137,11 @@ const TransferPin = props => {
           </View>
         </View>
         {pin.length === 6 ? (
-          <Pressable style={Styles.continueButton}>
+          <Pressable
+            style={Styles.continueButton}
+            onPress={() => {
+              navigation.navigate('FinalTransfer', data);
+            }}>
             <Text style={[Styles.transferBtnText, styles2.nunito700]}>
               Transfer Now
             </Text>
