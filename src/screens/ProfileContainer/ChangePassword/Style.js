@@ -28,14 +28,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'stretch',
-    width: '100%',
+    borderBottomWidth: 1,
     paddingHorizontal: 10,
   },
   textInput: {
     borderBottomColor: '#A9A9A9',
-    borderBottomWidth: 1,
     alignSelf: 'stretch',
-    width: '100%',
+    flex: 1,
   },
   buttonArea: {
     height: '20%',
