@@ -1,3 +1,7 @@
+
+import React from 'react';
+import {View, Text, Image, Pressable, TouchableOpacity} from 'react-native';
+=======
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -12,41 +16,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './Style';
 import profilePlaceHolder from '../../assets/img/profile.png';
 import SpotifyIcon from '../../assets/img/spotify.png';
+import {connect, useSelector} from 'react-redux';
+import {logoutAction} from '../../redux/actionCreators/auth';
 
 const Home = props => {
-  const [backButton, setBackButton] = useState(0);
-  const [timer, setTimer] = useState(Date.now());
+  const token = useSelector(reduxState => reduxState.auth.token);
 
-  useEffect(() => {
-    const backAction = () => {
-      const exitTimer = Date.now();
-      if (backButton === 0) {
-        setBackButton(backButton + 1);
-        ToastAndroid.show(
-          'Press again to exit the application',
-          ToastAndroid.SHORT,
-        );
-        setTimer(Date.now());
-      }
-      if (backButton === 1) {
-        if (timer < exitTimer - 3000) {
-          ToastAndroid.show(
-            'Press again to exit the application',
-            ToastAndroid.SHORT,
-          );
-          setTimer(Date.now());
-        } else {
-          BackHandler.exitApp();
-        }
-      }
-      return true;
-    };
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-    return () => backHandler.remove();
-  }, [backButton, timer]);
+  const logoutHandler = () => {
+    props.onLogout(token, props.navigation.replace('Login'));
+  };
 
   return (
     <View style={styles.container}>
@@ -124,9 +102,28 @@ const Home = props => {
             +Rp1.150.000
           </Text>
         </View>
+        <View style={styles.wrapperButton}>
+          <TouchableOpacity style={styles.button} onPress={logoutHandler}>
+            <Text style={styles.buttonText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
 
-export default Home;
+const mapStateToProps = ({auth}) => {
+  return {
+    auth,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogout: token => {
+      dispatch(logoutAction(token));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
