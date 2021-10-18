@@ -22,6 +22,8 @@ import NewPIN from './src/screens/ProfileContainer/ChangePIN/NewPIN.js';
 import Notifications from './src/screens/Notifications/Notifications.js';
 import TransferPin from './src/screens/TransferFlow/TransferPin/TransferPin.js';
 import FinalTransfer from './src/screens/TransferFlow/FinalTransfer/FinalTransfer.js';
+import TransactionDetail from './src/screens/TransactionDetailHistory/TransactionDetail/TransactionDetail.js';
+import TransactionHistory from './src/screens/TransactionDetailHistory/TransactionHistory/TransactionHistory.js';
 
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
@@ -91,6 +93,16 @@ const App = () => {
         <StackScreen
           name="FinalTransfer"
           component={FinalTransfer}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="TransactionDetail"
+          component={TransactionDetail}
+          options={{headerShown: false}}
+        />
+        <StackScreen
+          name="TransactionHistory"
+          component={TransactionHistory}
           options={{headerShown: false}}
         />
         <StackScreen
