@@ -5,7 +5,7 @@ import reduxConfig from './src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from './src/screens/SplashScreen/Component.js';
-import Home from './src/screens/Home/Home';
+import Home from './src/screens/Home/Home.js';
 import Topup from './src/screens/Topup/Topup.js';
 import FindReceiver from './src/screens/TransferFlow/FindReceiver/FindReceiver.js';
 import InputAmount from './src/screens/TransferFlow/InputAmount/InputAmount.js';
