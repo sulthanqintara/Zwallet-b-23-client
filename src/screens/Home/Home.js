@@ -1,5 +1,16 @@
+
 import React from 'react';
 import {View, Text, Image, Pressable, TouchableOpacity} from 'react-native';
+=======
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  Pressable,
+  BackHandler,
+  ToastAndroid,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import styles from './Style';

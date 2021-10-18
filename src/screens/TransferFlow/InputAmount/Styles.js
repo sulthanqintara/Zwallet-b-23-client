@@ -28,9 +28,10 @@ export default StyleSheet.create({
 
   nominalInput: {
     fontSize: 42,
-    marginVertical: 20,
+    marginTop: 20,
     width: 'auto',
     color: '#6379F4',
+    padding: 0,
   },
   amountAvailable: {
     textAlign: 'center',
@@ -60,5 +61,10 @@ export default StyleSheet.create({
   continueText: {
     fontSize: 18,
     color: 'white',
+  },
+  errorMessage: {
+    textAlign: 'center',
+    color: 'red',
+    marginVertical: 10,
   },
 });

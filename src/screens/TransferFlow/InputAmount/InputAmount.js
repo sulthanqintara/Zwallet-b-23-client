@@ -7,9 +7,23 @@ import styles from './Styles';
 
 const InputAmount = props => {
   const [notes, setNotes] = useState('');
-  const [topUpNominal, setTopUpNominal] = useState('');
+  const [topUpNominal, setTopUpNominal] = useState(0);
+  const [errorMessage, setErrorMessage] = useState(false);
   const {route, navigation} = props;
   const data = route.params;
+
+  const nextPageHandler = () => {
+    if (topUpNominal < 10000) {
+      return setErrorMessage('Minimum amount Rp 10.000');
+    }
+    setErrorMessage(false);
+    navigation.navigate('TransferConfirmation', {
+      ...data,
+      notes,
+      topUpNominal,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -35,10 +49,11 @@ const InputAmount = props => {
           placeholder="0.00"
           style={[styles.nominalInput, styles.nunito700]}
           keyboardType="numeric"
-          onEndEditing={e => {
+          onChange={e => {
             setTopUpNominal(e.nativeEvent.text);
           }}
         />
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
         <Text style={[styles.amountAvailable, styles.nunito700]}>
           Rp x Available
         </Text>
@@ -46,18 +61,13 @@ const InputAmount = props => {
           <Ionicons name="pencil-outline" size={28} />
           <TextInput
             placeholder="Add some notes"
-            multiline={true}
             style={styles.notesInput}
-            onEndEditing={e => {
+            onChange={e => {
               setNotes(e.nativeEvent.text);
             }}
           />
         </View>
-        <Pressable
-          style={styles.continueButton}
-          onPress={() => {
-            navigation.navigate('TransferConfirmation', data);
-          }}>
+        <Pressable style={styles.continueButton} onPress={nextPageHandler}>
           <Text style={[styles.continueText, styles.nunito700]}>Continue</Text>
         </Pressable>
       </View>

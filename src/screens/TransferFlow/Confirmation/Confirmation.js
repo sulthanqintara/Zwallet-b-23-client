@@ -23,7 +23,7 @@ const Confirmation = props => {
     'Dec',
   ];
   const data = route.params;
-  const dateNow = new Date(); // 2009-11-10
+  const dateNow = new Date();
   const month = monthNames[dateNow.getMonth()];
   return (
     <View style={styles.container}>
@@ -52,7 +52,9 @@ const Confirmation = props => {
             <Text style={[styles.topCardTitleTxt, styles.nunito400]}>
               Amount
             </Text>
-            <Text style={[styles.topCardTxt, styles.nunito700]}>Rp100.000</Text>
+            <Text style={[styles.topCardTxt, styles.nunito700]}>
+              Rp{data.topUpNominal}
+            </Text>
           </View>
           <View style={styles.topCard}>
             <Text style={[styles.topCardTitleTxt, styles.nunito400]}>
@@ -86,13 +88,16 @@ const Confirmation = props => {
         <View style={styles.bottomCard}>
           <Text style={[styles.topCardTitleTxt, styles.nunito400]}>Notes</Text>
           <Text style={[styles.topCardTxt, styles.nunito700]}>
-            For buying some socks
+            {data.notes}
           </Text>
         </View>
         <Pressable
           style={styles.continueButton}
           onPress={() => {
-            navigation.navigate('TransferConfirmation', data);
+            navigation.navigate('TransferPin', {
+              ...data,
+              time: dateNow.toISOString(),
+            });
           }}>
           <Text style={[styles2.continueText, styles2.nunito700]}>
             Continue
