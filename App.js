@@ -1,8 +1,11 @@
 import React from 'react';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import reduxConfig from './src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from './src/screens/SplashScreen/Component.js';
-import Home from './src/screens/Home/Home';
+import Home from './src/screens/Home/Home.js';
 import Topup from './src/screens/Topup/Topup.js';
 import FindReceiver from './src/screens/TransferFlow/FindReceiver/FindReceiver.js';
 import InputAmount from './src/screens/TransferFlow/InputAmount/InputAmount.js';
@@ -25,184 +28,190 @@ import FinalTransfer from './src/screens/TransferFlow/FinalTransfer/FinalTransfe
 import TransactionDetail from './src/screens/TransactionDetailHistory/TransactionDetail/TransactionDetail.js';
 import TransactionHistory from './src/screens/TransactionDetailHistory/TransactionHistory/TransactionHistory.js';
 
+const redux = reduxConfig();
+
 const App = () => {
   const {Navigator: StackNav, Screen: StackScreen} = createStackNavigator();
   return (
-    <NavigationContainer>
-      <StackNav initialRouteName="SplashScreen">
-        <StackScreen
-          name="SplashScreen"
-          component={SplashScreen}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="Login"
-          component={Login}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="Register"
-          component={Register}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="Reset-Password"
-          component={ResetPassword}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="Confirm-Otp"
-          component={ConfirmOtp}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="Create-Password"
-          component={CreateNewPassword}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="Home"
-          component={Home}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="Topup"
-          component={Topup}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="FindReceiver"
-          component={FindReceiver}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="InputAmount"
-          component={InputAmount}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="TransferConfirmation"
-          component={Confirmation}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="TransferPin"
-          component={TransferPin}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="FinalTransfer"
-          component={FinalTransfer}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="TransactionDetail"
-          component={TransactionDetail}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="TransactionHistory"
-          component={TransactionHistory}
-          options={{headerShown: false}}
-        />
-        <StackScreen
-          name="Profile"
-          component={Profile}
-          options={{headerTransparent: true, headerTitle: ''}}
-        />
-        <StackScreen
-          name="PersonalInfo"
-          component={PersonalInfo}
-          options={{
-            headerTransparent: true,
-            headerTitle: 'Personal Information',
-            headerTitleStyle: {
-              fontFamily: 'NunitoSans-Bold',
-              fontSize: 20,
-              color: '#4D4B57',
-            },
-          }}
-        />
-        <StackScreen
-          name="ChangePassword"
-          component={ChangePassword}
-          options={{
-            headerTransparent: true,
-            headerTitle: 'Change Password',
-            headerTitleStyle: {
-              fontFamily: 'NunitoSans-Bold',
-              fontSize: 20,
-              color: '#4D4B57',
-            },
-          }}
-        />
-        <StackScreen
-          name="AddPhoneNumber"
-          component={AddPhoneNumber}
-          options={{
-            headerTransparent: true,
-            headerTitle: 'Add Phone Number',
-            headerTitleStyle: {
-              fontFamily: 'NunitoSans-Bold',
-              fontSize: 20,
-              color: '#4D4B57',
-            },
-          }}
-        />
-        <StackScreen
-          name="ManagePhoneNumber"
-          component={ManagePhoneNumber}
-          options={{
-            headerTransparent: true,
-            headerTitle: 'Manage Phone Number',
-            headerTitleStyle: {
-              fontFamily: 'NunitoSans-Bold',
-              fontSize: 20,
-              color: '#4D4B57',
-            },
-          }}
-        />
-        <StackScreen
-          name="ChangePIN"
-          component={ChangePIN}
-          options={{
-            headerTransparent: true,
-            headerTitle: 'Change PIN',
-            headerTitleStyle: {
-              fontFamily: 'NunitoSans-Bold',
-              fontSize: 20,
-              color: '#4D4B57',
-            },
-          }}
-        />
-        <StackScreen
-          name="NewPIN"
-          component={NewPIN}
-          options={{
-            headerTransparent: true,
-            headerTitle: 'Change PIN',
-            headerTitleStyle: {
-              fontFamily: 'NunitoSans-Bold',
-              fontSize: 20,
-              color: '#4D4B57',
-            },
-          }}
-        />
-        <StackScreen
-          name="Notifications"
-          component={Notifications}
-          options={{
-            headerTransparent: true,
-            headerTitle: 'Notifications',
-            headerTitleStyle: {
-              fontFamily: 'NunitoSans-Bold',
-              fontSize: 20,
-              color: '#4D4B57',
-            },
-          }}
-        />
-      </StackNav>
-    </NavigationContainer>
+    <Provider store={redux.reduxStore}>
+      <PersistGate persistor={redux.persist}>
+        <NavigationContainer>
+          <StackNav initialRouteName="SplashScreen">
+            <StackScreen
+              name="SplashScreen"
+              component={SplashScreen}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="Login"
+              component={Login}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="Register"
+              component={Register}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="Reset-Password"
+              component={ResetPassword}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="Confirm-Otp"
+              component={ConfirmOtp}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="Create-Password"
+              component={CreateNewPassword}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="Home"
+              component={Home}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="Topup"
+              component={Topup}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="FindReceiver"
+              component={FindReceiver}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="InputAmount"
+              component={InputAmount}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="TransferConfirmation"
+              component={Confirmation}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="TransferPin"
+              component={TransferPin}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="FinalTransfer"
+              component={FinalTransfer}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="TransactionDetail"
+              component={TransactionDetail}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="TransactionHistory"
+              component={TransactionHistory}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="Profile"
+              component={Profile}
+              options={{headerTransparent: true, headerTitle: ''}}
+            />
+            <StackScreen
+              name="PersonalInfo"
+              component={PersonalInfo}
+              options={{
+                headerTransparent: true,
+                headerTitle: 'Personal Information',
+                headerTitleStyle: {
+                  fontFamily: 'NunitoSans-Bold',
+                  fontSize: 20,
+                  color: '#4D4B57',
+                },
+              }}
+            />
+            <StackScreen
+              name="ChangePassword"
+              component={ChangePassword}
+              options={{
+                headerTransparent: true,
+                headerTitle: 'Change Password',
+                headerTitleStyle: {
+                  fontFamily: 'NunitoSans-Bold',
+                  fontSize: 20,
+                  color: '#4D4B57',
+                },
+              }}
+            />
+            <StackScreen
+              name="AddPhoneNumber"
+              component={AddPhoneNumber}
+              options={{
+                headerTransparent: true,
+                headerTitle: 'Add Phone Number',
+                headerTitleStyle: {
+                  fontFamily: 'NunitoSans-Bold',
+                  fontSize: 20,
+                  color: '#4D4B57',
+                },
+              }}
+            />
+            <StackScreen
+              name="ManagePhoneNumber"
+              component={ManagePhoneNumber}
+              options={{
+                headerTransparent: true,
+                headerTitle: 'Manage Phone Number',
+                headerTitleStyle: {
+                  fontFamily: 'NunitoSans-Bold',
+                  fontSize: 20,
+                  color: '#4D4B57',
+                },
+              }}
+            />
+            <StackScreen
+              name="ChangePIN"
+              component={ChangePIN}
+              options={{
+                headerTransparent: true,
+                headerTitle: 'Change PIN',
+                headerTitleStyle: {
+                  fontFamily: 'NunitoSans-Bold',
+                  fontSize: 20,
+                  color: '#4D4B57',
+                },
+              }}
+            />
+            <StackScreen
+              name="NewPIN"
+              component={NewPIN}
+              options={{
+                headerTransparent: true,
+                headerTitle: 'Change PIN',
+                headerTitleStyle: {
+                  fontFamily: 'NunitoSans-Bold',
+                  fontSize: 20,
+                  color: '#4D4B57',
+                },
+              }}
+            />
+            <StackScreen
+              name="Notifications"
+              component={Notifications}
+              options={{
+                headerTransparent: true,
+                headerTitle: 'Notifications',
+                headerTitleStyle: {
+                  fontFamily: 'NunitoSans-Bold',
+                  fontSize: 20,
+                  color: '#4D4B57',
+                },
+              }}
+            />
+          </StackNav>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 };
 

@@ -1,12 +1,15 @@
-import React, {useCallback, useState} from 'react';
 import {
   View,
   Text,
   Image,
   Pressable,
+  TouchableOpacity,
   BackHandler,
   ToastAndroid,
 } from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {connect, useSelector} from 'react-redux';
+import {logoutAction} from '../../redux/actionCreators/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import styles from './Style';
@@ -47,6 +50,11 @@ const Home = props => {
         BackHandler.removeEventListener('hardwareBackPress', backAction);
     }, [backButton, timer]),
   );
+  const token = useSelector(reduxState => reduxState.auth.token);
+
+  const logoutHandler = () => {
+    props.onLogout(token, props.navigation.replace('Login'));
+  };
 
   return (
     <View style={styles.container}>
@@ -127,9 +135,28 @@ const Home = props => {
             +Rp1.150.000
           </Text>
         </View>
+        <View style={styles.wrapperButton}>
+          <TouchableOpacity style={styles.button} onPress={logoutHandler}>
+            <Text style={styles.buttonText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
 
-export default Home;
+const mapStateToProps = ({auth}) => {
+  return {
+    auth,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogout: token => {
+      dispatch(logoutAction(token));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

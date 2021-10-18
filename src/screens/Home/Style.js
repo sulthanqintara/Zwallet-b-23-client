@@ -100,4 +100,21 @@ export default StyleSheet.create({
     height: 56,
     borderRadius: 10,
   },
+  button: {
+    backgroundColor: '#DADADA',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+    padding: 13,
+    bottom: 70,
+  },
+  wrapperButton: {
+    marginTop: 100,
+  },
+  buttonText: {
+    color: '#88888F',
+    fontWeight: '600',
+    fontSize: 18,
+    fontFamily: 'NunitoSans-SemiBold',
+  },
 });
