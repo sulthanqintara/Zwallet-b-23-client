@@ -27,6 +27,8 @@ import TransferPin from './src/screens/TransferFlow/TransferPin/TransferPin.js';
 import FinalTransfer from './src/screens/TransferFlow/FinalTransfer/FinalTransfer.js';
 import TransactionDetail from './src/screens/TransactionDetailHistory/TransactionDetail/TransactionDetail.js';
 import TransactionHistory from './src/screens/TransactionDetailHistory/TransactionHistory/TransactionHistory.js';
+import CreatePin from './src/screens/CreatePin/CreatePin';
+import SuccessRegister from './src/screens/Register/SuccessRegister';
 
 const redux = reduxConfig();
 
@@ -53,6 +55,11 @@ const App = () => {
               options={{headerShown: false}}
             />
             <StackScreen
+              name="Success-Register"
+              component={SuccessRegister}
+              options={{headerShown: false}}
+            />
+            <StackScreen
               name="Reset-Password"
               component={ResetPassword}
               options={{headerShown: false}}
@@ -60,6 +67,11 @@ const App = () => {
             <StackScreen
               name="Confirm-Otp"
               component={ConfirmOtp}
+              options={{headerShown: false}}
+            />
+            <StackScreen
+              name="Create-Pin"
+              component={CreatePin}
               options={{headerShown: false}}
             />
             <StackScreen

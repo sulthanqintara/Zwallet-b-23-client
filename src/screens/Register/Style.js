@@ -25,6 +25,9 @@ export default StyleSheet.create({
     padding: 18,
     // marginTop: -50,
   },
+  successImage: {
+    marginLeft: '40%',
+  },
   textLogin: {
     textAlign: 'center',
     color: '#3A3D42',
@@ -123,5 +126,8 @@ export default StyleSheet.create({
     fontSize: 16,
     color: '#6379F4',
     fontWeight: '700',
+  },
+  wrapperButtonReset: {
+    marginTop: 'auto',
   },
 });
