@@ -20,6 +20,7 @@ const authReducer = (prevState = initialState, action) => {
         isPending: true,
         isFulfilled: false,
         isRejected: false,
+        error: '',
       };
     case 'LOGIN'.concat('_', Rejected):
       return {
@@ -61,6 +62,7 @@ const authReducer = (prevState = initialState, action) => {
         authInfo: {},
         isLogin: false,
         token: '',
+        error: '',
       };
     default:
       return prevState;
