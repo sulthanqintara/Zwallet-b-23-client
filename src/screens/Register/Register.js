@@ -15,8 +15,25 @@ const Register = props => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
 
   const onSubmit = () => {
+    if (username === '') {
+      return setError('Username are Required');
+    }
+    if (email === '') {
+      return setError('E-mail are Required');
+    }
+    if (!email.includes('@')) {
+      return setError('Please input a valid Email');
+    }
+    if (password === '') {
+      return setError('Password are Required');
+    }
+    if (password.length < 6) {
+      return setError('Password must have 6 or more characters');
+    }
+
     const data = new URLSearchParams();
     data.append('username', username);
     data.append('email', email);
@@ -31,7 +48,12 @@ const Register = props => {
           ToastAndroid.SHORT,
         );
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err.message);
+        if (err.message.includes(409) === true) {
+          return setError('E-mail or Username already registered!');
+        }
+      });
   };
   return (
     <View style={styles.container}>
@@ -50,7 +72,10 @@ const Register = props => {
             placeholder="Enter your username"
             keyboardType="email-address"
             placeholderTextColor="#A9A9A9"
-            onChangeText={value => setUsername(value)}
+            onChangeText={value => {
+              setUsername(value);
+              setError(false);
+            }}
             value={username}
           />
         </View>
@@ -61,7 +86,10 @@ const Register = props => {
             placeholder="Enter your e-mail"
             keyboardType="email-address"
             placeholderTextColor="#A9A9A9"
-            onChangeText={value => setEmail(value)}
+            onChangeText={value => {
+              setEmail(value);
+              setError(false);
+            }}
             value={email}
           />
         </View>
@@ -71,11 +99,19 @@ const Register = props => {
             style={styles.textInput}
             placeholder="Create your password"
             placeholderTextColor="#A9A9A9"
-            onChangeText={value => setPassword(value)}
+            onChangeText={value => {
+              setPassword(value);
+              setError(false);
+            }}
             value={password}
             secureTextEntry
           />
         </View>
+        {error && (
+          <View style={styles.wrapperError}>
+            <Text style={styles.textError}>{error}</Text>
+          </View>
+        )}
         {/* <View style={styles.wrapperButton}>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Sign Up</Text>
