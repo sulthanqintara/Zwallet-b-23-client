@@ -42,9 +42,16 @@ const TransactionHistory = props => {
     if (expense) {
       modalParams = {...paramsTransaction, filter: 'expense'};
     }
-    getTransaction(modalParams, token).then(data => {
-      setCardData(data.data.result.transactionData);
-    });
+    getTransaction(modalParams, token)
+      .then(data => {
+        setCardData(data.data.result.transactionData);
+      })
+      .catch(err => {
+        console.log(String(err));
+        if (String(err).includes('404')) {
+          setCardData([]);
+        }
+      });
   };
   const expenseHandler = () => {
     console.log(income);
@@ -53,11 +60,16 @@ const TransactionHistory = props => {
       setExpense(!expense);
     }
     if (!expense) {
-      getTransaction({...paramsTransaction, filter: 'expense'}, token).then(
-        data => {
+      getTransaction({...paramsTransaction, filter: 'expense'}, token)
+        .then(data => {
           setCardData(data.data.result.transactionData);
-        },
-      );
+        })
+        .catch(err => {
+          console.log(String(err));
+          if (String(err).includes('404')) {
+            setCardData([]);
+          }
+        });
       return setExpense(!expense);
     }
     getTransaction(paramsTransaction, token).then(data => {
@@ -74,11 +86,16 @@ const TransactionHistory = props => {
       setIncome(!income);
     }
     if (!income) {
-      getTransaction({...paramsTransaction, filter: 'income'}, token).then(
-        data => {
+      getTransaction({...paramsTransaction, filter: 'income'}, token)
+        .then(data => {
           setCardData(data.data.result.transactionData);
-        },
-      );
+        })
+        .catch(err => {
+          console.log(String(err));
+          if (String(err).includes('404')) {
+            setCardData([]);
+          }
+        });
       return setIncome(!income);
     }
     getTransaction(paramsTransaction, token).then(data => {
