@@ -6,11 +6,22 @@ import {connect} from 'react-redux';
 import {loginAction} from '../../redux/actionCreators/auth';
 
 const Login = props => {
-  // console.log(props);
+  console.log(props.auth.error.message);
   const [userLogin, setUserLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
 
   const onSubmit = () => {
+    if (userLogin === '') {
+      return setError('E-mail or Username are required!');
+    }
+    if (password === '') {
+      return setError('Password are required');
+    }
+    if (props.auth.error.message.includes(401) === true) {
+      return setError('Invalid Email or Password');
+    }
+
     const data = new URLSearchParams();
     data.append('userLogin', userLogin);
     data.append('password', password);
@@ -35,7 +46,10 @@ const Login = props => {
             placeholder="Enter your Email"
             keyboardType="email-address"
             placeholderTextColor="#A9A9A9"
-            onChangeText={value => setUserLogin(value)}
+            onChangeText={value => {
+              setUserLogin(value);
+              setError(false);
+            }}
             value={userLogin}
           />
         </View>
@@ -46,13 +60,21 @@ const Login = props => {
             placeholder="Input your password"
             placeholderTextColor="#A9A9A9"
             secureTextEntry
-            onChangeText={value => setPassword(value)}
+            onChangeText={value => {
+              setPassword(value);
+              setError(false);
+            }}
             value={password}
           />
         </View>
         <Pressable onPress={() => props.navigation.navigate('Reset-Password')}>
           <Text style={styles.forgotPass}>Forgot password?</Text>
         </Pressable>
+        {error && (
+          <View style={styles.wrapperError}>
+            <Text style={styles.textError}>{error}</Text>
+          </View>
+        )}
         {/* <View style={styles.wrapperButton}>
           <TouchableOpacity
             style={styles.button}

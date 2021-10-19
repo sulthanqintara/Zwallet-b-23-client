@@ -67,8 +67,17 @@ export default StyleSheet.create({
     color: '#3A3D42',
     opacity: 0.8,
   },
+  wrapperError: {
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  textError: {
+    color: '#FF5B37',
+    fontFamily: 'NunitoSans-SemiBold',
+    fontSize: 16,
+  },
   wrapperButton: {
-    marginTop: 100,
+    marginTop: 90,
   },
   button: {
     backgroundColor: '#DADADA',
