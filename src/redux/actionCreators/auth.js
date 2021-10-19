@@ -1,4 +1,5 @@
 import {deleteLogout, postLogin} from '../../utils/https/auth';
+import {postTransaction} from '../../utils/https/transaction';
 
 export const loginAction = body => {
   return {
@@ -11,5 +12,12 @@ export const logoutAction = token => {
   return {
     type: 'LOGOUT',
     payload: deleteLogout(token),
+  };
+};
+
+export const topUpAction = (body, token) => {
+  return {
+    type: 'TOPUP',
+    payload: postTransaction(body, token),
   };
 };

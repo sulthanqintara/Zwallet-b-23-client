@@ -25,7 +25,7 @@ const TransferPin = props => {
       recipient_id: data.userId,
       amount: data.topUpNominal,
       status: 1,
-      transaction_status_id: 1,
+      transaction_status_id: 3,
       notes: data.notes,
     };
     postTransaction(body, token)
@@ -36,7 +36,6 @@ const TransferPin = props => {
         navigation.navigate('FinalTransfer', {data, response: String(err)});
       });
   };
-  console.log(data);
   return (
     <View style={styles2.container}>
       <View style={styles2.header}>

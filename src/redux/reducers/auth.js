@@ -64,6 +64,29 @@ const authReducer = (prevState = initialState, action) => {
         token: '',
         error: '',
       };
+    case 'TOPUP'.concat('_', Pending):
+      return {
+        ...prevState,
+        isPending: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'TOPUP'.concat('_', Rejected):
+      return {
+        ...prevState,
+        isPending: true,
+        isRejected: false,
+        error: action.payload,
+      };
+    case 'TOPUP'.concat('_', Fulfilled):
+      console.log('topup', action.payload);
+      return {
+        ...prevState,
+        isPending: false,
+        isRejected: true,
+        authInfo: action.payload.data.result,
+        isLogin: false,
+      };
     default:
       return prevState;
   }
