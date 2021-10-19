@@ -1,13 +1,5 @@
 import React, {useState} from 'react';
-import {postRegister} from '../../utils/https/auth';
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  TouchableOpacity,
-  ToastAndroid,
-} from 'react-native';
+import {View, Text, TextInput, Pressable, TouchableOpacity} from 'react-native';
 import styles from './Style';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -34,26 +26,28 @@ const Register = props => {
       return setError('Password must have 6 or more characters');
     }
 
-    const data = new URLSearchParams();
-    data.append('username', username);
-    data.append('email', email);
-    data.append('password', password);
+    const data = {
+      email: email,
+      username: username,
+      password: password,
+    };
 
-    postRegister(data)
-      .then(res => {
-        console.log(res);
-        props.navigation.navigate('Login');
-        return ToastAndroid.show(
-          'success register! login now',
-          ToastAndroid.SHORT,
-        );
-      })
-      .catch(err => {
-        console.log(err.message);
-        if (err.message.includes(409) === true) {
-          return setError('E-mail or Username already registered!');
-        }
-      });
+    props.navigation.replace('Create-Pin', {data});
+    // postRegister(data)
+    //   .then(res => {
+    //     console.log(res);
+    //     props.navigation.navigate('Login');
+    //     return ToastAndroid.show(
+    //       'success register! login now',
+    //       ToastAndroid.SHORT,
+    //     );
+    //   })
+    //   .catch(err => {
+    //     console.log(err.message);
+    //     if (err.message.includes(409) === true) {
+    //       return setError('E-mail or Username already registered!');
+    //     }
+    //   });
   };
   return (
     <View style={styles.container}>
