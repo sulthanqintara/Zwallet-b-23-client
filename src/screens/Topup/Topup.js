@@ -11,11 +11,16 @@ import styles from './Style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TopUpCard from '../../components/TopUpCard';
 import {TextInput} from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
+import {topUpAction} from '../../redux/actionCreators/auth';
 
 const Topup = props => {
   const [modalVisible, setModalVisible] = useState(false);
+  const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
+  const token = useSelector(reduxState => reduxState.auth.token);
   const [amount, setAmount] = useState(0);
-
+  const dispatch = useDispatch();
+  console.log(authInfo);
   const addBalanceHandler = () => {
     if (amount < 10000) {
       return ToastAndroid.show(
@@ -23,7 +28,16 @@ const Topup = props => {
         ToastAndroid.SHORT,
       );
     }
+    const body = {
+      sender_id: 1,
+      recipient_id: authInfo.userId,
+      amount,
+      status: 1,
+      transaction_status_id: 1,
+      notes: '',
+    };
     setModalVisible(!modalVisible);
+    dispatch(topUpAction(body, token));
     return ToastAndroid.show(
       'Balance added to your account!',
       ToastAndroid.SHORT,
