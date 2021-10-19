@@ -18,7 +18,7 @@ const Login = props => {
     if (password === '') {
       return setError('Password are required');
     }
-    if (props.auth.error.message.includes(401) === true) {
+    if (props.auth?.error?.message?.includes(401) === true) {
       return setError('Invalid Email or Password');
     }
 

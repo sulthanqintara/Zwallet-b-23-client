@@ -8,7 +8,7 @@ import {
   ToastAndroid,
   ScrollView,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {connect, useSelector} from 'react-redux';
 import {logoutAction} from '../../redux/actionCreators/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -55,14 +55,24 @@ const Home = props => {
         BackHandler.removeEventListener('hardwareBackPress', backAction);
     }, [backButton, timer]),
   );
+  let initValue = useRef(true);
   useEffect(() => {
     const params = {user_id: authInfo.userId, limit: 4};
-
-    const unsubscribe = props.navigation.addListener('focus', () => {
-      getTransaction(params, token).then(data => setCardData(data.data.result));
-    });
-    getTransaction(params, token).then(data => setCardData(data.data.result));
-    return unsubscribe;
+    getTransaction(params, token)
+      .then(data => setCardData(data.data.result))
+      .catch(err => {
+        console.log(err);
+      });
+    if (initValue.current) {
+      initValue.current = false;
+    } else {
+      const unsubscribe = props.navigation.addListener('focus', () => {
+        getTransaction(params, token).then(data =>
+          setCardData(data.data.result),
+        );
+      });
+      return unsubscribe;
+    }
   }, [authInfo.userId, props.navigation, token]);
 
   const logoutHandler = () => {
