@@ -9,7 +9,6 @@ import PushNotification from 'react-native-push-notification';
 import socket from '../../utils/socket/SocketIo';
 
 const Login = props => {
-  // console.log(props.auth.error.message);
   const [userLogin, setUserLogin] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
@@ -101,18 +100,20 @@ const Login = props => {
             <Text style={styles.textError}>{error}</Text>
           </View>
         )}
-        {/* <View style={styles.wrapperButton}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => console.log('klik')}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-        </View> */}
-        <View style={styles.wrapperButton}>
-          <TouchableOpacity style={styles.buttonActive} onPress={onSubmit}>
-            <Text style={styles.buttonTextActive}>Login</Text>
-          </TouchableOpacity>
-        </View>
+        {userLogin && password !== '' ? (
+          <View style={styles.wrapperButton}>
+            <TouchableOpacity style={styles.buttonActive} onPress={onSubmit}>
+              <Text style={styles.buttonTextActive}>Login</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.wrapperButton}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Login</Text>
+            </View>
+          </View>
+        )}
+
         <View style={styles.textBottom}>
           <Text style={styles.textDontHave}>Don’t have an account? Let’s </Text>
           <Pressable onPress={() => props.navigation.navigate('Register')}>

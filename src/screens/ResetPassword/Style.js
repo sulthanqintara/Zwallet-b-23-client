@@ -3,12 +3,12 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#FAFCFF',
+    backgroundColor: '#FFFFFF',
   },
   header: {
-    flex: 1,
+    // flex: 1,
     alignItems: 'center',
-    backgroundColor: '#EFF1FC',
+    backgroundColor: '#FFFFFF',
   },
   title: {
     color: '#6379F4',
@@ -23,7 +23,7 @@ export default StyleSheet.create({
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     padding: 18,
-    // marginTop: -50,
+    marginTop: 30,
   },
   textLogin: {
     textAlign: 'center',
@@ -43,7 +43,7 @@ export default StyleSheet.create({
   },
   wrapperInput: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 30,
     borderBottomWidth: 1,
     borderBottomColor: '#A9A9A9',
     width: '100%',
@@ -60,6 +60,15 @@ export default StyleSheet.create({
     color: '#6379F4',
     fontSize: 16,
   },
+  wrapperError: {
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  textError: {
+    color: '#FF5B37',
+    fontFamily: 'NunitoSans-SemiBold',
+    fontSize: 16,
+  },
   forgotPass: {
     marginTop: 15,
     textAlign: 'right',
@@ -68,10 +77,10 @@ export default StyleSheet.create({
     opacity: 0.8,
   },
   wrapperButton: {
-    marginTop: 270,
+    marginTop: 260,
   },
   wrapperButtonReset: {
-    marginTop: 200,
+    marginTop: 270,
   },
   button: {
     backgroundColor: '#DADADA',
@@ -115,5 +124,54 @@ export default StyleSheet.create({
     borderWidth: 1,
     fontSize: 24,
     fontFamily: 'NunitoSans-Bold',
+  },
+  pinContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 50,
+    marginBottom: 15,
+  },
+  numPadRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 15,
+    alignItems: 'center',
+  },
+  numPadNumber: {fontSize: 30, textAlign: 'center'},
+  numPadPressable: {flex: 1},
+  continueButton: {
+    width: 'auto',
+    backgroundColor: '#6379F4',
+    height: 57,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  transferBtnText: {
+    color: 'white',
+    fontSize: 18,
+  },
+  transferBtnTextDisabled: {
+    color: '#88888F',
+    fontSize: 18,
+  },
+  continueButtonDisabled: {
+    width: 'auto',
+    backgroundColor: '#DADADA',
+    height: 57,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pinBox: {
+    width: 47,
+    height: 58,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#A9A9A9',
+    borderRadius: 10,
+    fontSize: 40,
+    padding: 0,
+    textAlign: 'center',
   },
 });
