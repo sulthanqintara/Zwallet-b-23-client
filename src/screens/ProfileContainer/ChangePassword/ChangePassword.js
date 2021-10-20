@@ -14,12 +14,26 @@ const ChangePassword = props => {
   const [currentVisible, setCurrentVisible] = useState(false);
   const [newVisible, setNewVisible] = useState(false);
   const [repeatVisible, setRepeatVisible] = useState(false);
+  const [error, setError] = useState(false);
 
   const iconCurrent = !currentVisible ? 'eye-outline' : 'eye-off-outline';
   const iconNew = !newVisible ? 'eye-outline' : 'eye-off-outline';
   const iconRepeat = !repeatVisible ? 'eye-outline' : 'eye-off-outline';
 
   const changePass = () => {
+    if (currentPassword < 6) {
+      return setError('Current password must contain 6 or more characters');
+    }
+    if (newPassword < 6) {
+      return setError('New password must contain 6 or more characters');
+    }
+    if (repeatPassword < 6) {
+      return setError('Repeat password must contain 6 or more characters');
+    }
+    if (newPassword !== repeatPassword) {
+      return setError("Password didn't match!");
+    }
+
     const data = new URLSearchParams();
     data.append('oldPass', currentPassword);
     data.append('newPass', newPassword);
@@ -57,6 +71,7 @@ const ChangePassword = props => {
               style={styles.textInput}
               onChange={e => {
                 setCurrentPassword(e.nativeEvent.text);
+                setError(false);
               }}
             />
             <Ionicons
@@ -74,6 +89,7 @@ const ChangePassword = props => {
               style={styles.textInput}
               onChange={e => {
                 setNewPassword(e.nativeEvent.text);
+                setError(false);
               }}
             />
             <Ionicons
@@ -91,6 +107,7 @@ const ChangePassword = props => {
               style={styles.textInput}
               onChange={e => {
                 setRepeatPassword(e.nativeEvent.text);
+                setError(false);
               }}
             />
             <Ionicons
@@ -101,6 +118,11 @@ const ChangePassword = props => {
             />
           </View>
         </View>
+        {error && (
+          <View style={styles.wrapperError}>
+            <Text style={styles.textError}>{error}</Text>
+          </View>
+        )}
         <View style={styles.buttonArea}>
           <Pressable style={styles.changeButton} onPress={() => alertWindow()}>
             <Text style={styles.buttonText}>Change Password</Text>

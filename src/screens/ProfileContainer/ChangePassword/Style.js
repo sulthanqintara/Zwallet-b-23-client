@@ -66,4 +66,13 @@ export default StyleSheet.create({
     fontSize: 18,
     color: '#FFFFFF',
   },
+  wrapperError: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  textError: {
+    color: '#FF5B37',
+    fontFamily: 'NunitoSans-SemiBold',
+    fontSize: 16,
+  },
 });

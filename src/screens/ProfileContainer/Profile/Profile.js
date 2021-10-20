@@ -14,6 +14,7 @@ import styles from './Style';
 import {connect, useSelector} from 'react-redux';
 import {getUserById} from '../../../utils/https/users';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import socket from '../../../utils/socket/SocketIo';
 
 const Profile = props => {
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
@@ -88,6 +89,12 @@ const Profile = props => {
     ];
     Alert.alert(title, message, buttons);
   };
+
+  const logoutHandler = () => {
+    socket.off(`transaction_${authInfo.userId}`);
+    props.onLogout(token, props.navigation.replace('Login'));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -131,7 +138,7 @@ const Profile = props => {
             <Text style={styles.buttonText}>Notification</Text>
             <Switch />
           </Pressable>
-          <Pressable style={styles.profileButton}>
+          <Pressable style={styles.profileButton} onPress={logoutHandler}>
             <Text style={styles.buttonText}>Logout</Text>
           </Pressable>
         </View>
