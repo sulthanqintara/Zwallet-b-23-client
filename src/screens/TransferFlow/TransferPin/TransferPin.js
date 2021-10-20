@@ -3,17 +3,38 @@ import {View, Text, Pressable} from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useSelector} from 'react-redux';
+import {postTransaction} from '../../../utils/https/transaction';
 import styles2 from '../Confirmation/Styles';
 import Styles from './Styles';
 
 const TransferPin = props => {
   const {route, navigation} = props;
   const [pin, setPin] = useState('');
+  const token = useSelector(reduxState => reduxState.auth.token);
+  const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
   const data = route.params;
   const numPadHandler = num => {
     if (pin.length < 6) {
       return setPin(pin + num);
     }
+  };
+  const buttonHandler = () => {
+    const body = {
+      sender_id: authInfo.userId,
+      recipient_id: data.userId,
+      amount: data.topUpNominal,
+      status: 1,
+      transaction_status_id: 3,
+      notes: data.notes,
+    };
+    postTransaction(body, token)
+      .then(result => {
+        navigation.navigate('FinalTransfer', {data});
+      })
+      .catch(err => {
+        navigation.navigate('FinalTransfer', {data, response: String(err)});
+      });
   };
   return (
     <View style={styles2.container}>
@@ -26,7 +47,7 @@ const TransferPin = props => {
             <Ionicons name="arrow-back" color="white" size={28} />
           </Pressable>
           <Text style={[styles2.headerTitle, styles2.nunito700]}>
-            Confirmation
+            Enter Your PIN
           </Text>
         </View>
       </View>
@@ -137,11 +158,7 @@ const TransferPin = props => {
           </View>
         </View>
         {pin.length === 6 ? (
-          <Pressable
-            style={Styles.continueButton}
-            onPress={() => {
-              navigation.navigate('FinalTransfer', data);
-            }}>
+          <Pressable style={Styles.continueButton} onPress={buttonHandler}>
             <Text style={[Styles.transferBtnText, styles2.nunito700]}>
               Transfer Now
             </Text>

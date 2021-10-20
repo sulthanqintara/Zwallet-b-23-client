@@ -12,3 +12,7 @@ export const editUser = (id, body, token) => {
     headers: {'x-access-token': `Bearer ${token}`},
   });
 };
+
+export const getUsers = params => {
+  return axios.get(`${API_URL}/users`, {params});
+};

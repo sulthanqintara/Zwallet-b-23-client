@@ -8,7 +8,7 @@ export const getTransaction = (params, token) => {
   });
 };
 export const postTransaction = (body, token) => {
-  return axios.get(`${API_URL}/transaction`, body, {
+  return axios.post(`${API_URL}/transaction`, body, {
     headers: {'x-access-token': `Bearer ${token}`},
   });
 };

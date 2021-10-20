@@ -24,7 +24,12 @@ const TransactionDetail = props => {
   let income = 0;
   let expense = 0;
   useEffect(() => {
-    const params = {user_id: auth.userId, limit: 4};
+    const date = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const duration = `${date.getFullYear()}-${
+      date.getMonth() + 1
+    }-${date.getDate()}`;
+    console.log(duration);
+    const params = {user_id: auth.userId, limit: 100, start_duration: duration};
 
     const unsubscribe = props.navigation.addListener('focus', () => {
       getTransaction(params, token).then(data => {
@@ -125,7 +130,6 @@ const TransactionDetail = props => {
     }
     return 0;
   };
-  console.log(barHeight(0));
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -234,8 +238,8 @@ const TransactionDetail = props => {
               <View>
                 <Text style={[styles.nunito700, styles.cardTitle]}>
                   {data.sender_id === auth.userId
-                    ? data.sender
-                    : data.recepient}
+                    ? data.recepient
+                    : data.sender}
                 </Text>
                 <Text>
                   {data.transaction_status_id === 1 && 'Top up'}

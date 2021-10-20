@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, TextInput, Pressable, TouchableOpacity} from 'react-native';
 import styles from './Style';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -18,16 +19,31 @@ const Login = props => {
     if (password === '') {
       return setError('Password are required');
     }
-    // if (props.auth.error.message.includes(401) === true) {
-    //   return setError('Invalid Email or Password');
-    // }
 
     const data = new URLSearchParams();
     data.append('userLogin', userLogin);
     data.append('password', password);
 
-    props.onLogin(data, props.navigation.replace('Home'));
+    props.onLogin(data);
   };
+
+  const isInitialMount = useRef(true);
+  useEffect(() => {
+    const errorLogin = String(props.auth.error.message);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      if (props.auth.isLogin) {
+        props.navigation.reset({
+          index: 0,
+          routes: [{name: 'Home'}],
+        });
+      }
+    }
+    if (errorLogin.includes('401') === true) {
+      return setError('Email or Password Are Incorrect');
+    }
+  }, [props.auth.isLogin, props.auth.error.message]);
 
   return (
     <View style={styles.container}>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,13 +9,16 @@ import {
 } from 'react-native';
 import styles from './Styles';
 import styles2 from '../TransferPin/Styles';
+import {API_URL} from '@env';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import ProfilePlaceholder from '../../../assets/img/profile.png';
+import {useSelector} from 'react-redux';
+import profilePlaceHolder from '../../../assets/img/user.png';
 
 const FinalTransfer = props => {
   const {navigation, route} = props;
-  const data = route.params;
+  const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
+  const data = route.params.data;
   const transactionDate = new Date(data.time);
   const monthNames = [
     'Jan',
@@ -31,8 +34,9 @@ const FinalTransfer = props => {
     'Nov',
     'Dec',
   ];
+  console.log(data);
   const month = monthNames[transactionDate.getMonth()];
-  const [status, setStatus] = useState(true);
+  let status = true;
   useEffect(() => {
     const backAction = () => {
       navigation.reset({
@@ -84,7 +88,7 @@ const FinalTransfer = props => {
               Balance Left
             </Text>
             <Text style={[styles.nunito700, styles.cardSubTitle]}>
-              Rp {data.topUpNominal}
+              Rp {authInfo.balance - data.topUpNominal}
             </Text>
           </View>
         </View>
@@ -119,7 +123,14 @@ const FinalTransfer = props => {
         </View>
         <Text style={[styles.contentSubTitle, styles.nunito700]}>From</Text>
         <View style={[styles.card, styles.flexRow]}>
-          <Image source={ProfilePlaceholder} style={styles.profilePic} />
+          <Image
+            source={
+              authInfo.profilePic
+                ? {uri: API_URL + authInfo.profilePic}
+                : profilePlaceHolder
+            }
+            style={styles.profilePic}
+          />
           <View style={styles.contactContainer}>
             <Text style={[styles.nunito700, styles.contactTitle]}>
               Robert Chandler
@@ -129,12 +140,19 @@ const FinalTransfer = props => {
         </View>
         <Text style={[styles.contentSubTitle, styles.nunito700]}>To</Text>
         <View style={[styles.card, styles.flexRow]}>
-          <Image source={data.image} style={styles.profilePic} />
+          <Image
+            source={
+              data.userImage
+                ? {uri: API_URL + data.userImage}
+                : profilePlaceHolder
+            }
+            style={styles.profilePic}
+          />
           <View style={styles.contactContainer}>
             <Text style={[styles.nunito700, styles.contactTitle]}>
-              {data.name}
+              {data.userUsername}
             </Text>
-            <Text style={[styles.nunito400]}>{data.phone}</Text>
+            <Text style={[styles.nunito400]}>{data.userPhone}</Text>
           </View>
         </View>
         <Pressable
