@@ -1,9 +1,38 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import styles from './Style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {connect, useSelector} from 'react-redux';
+import {updateUserAction} from '../../../redux/actionCreators/auth';
 
-const ManagePhoneNumber = () => {
+const ManagePhoneNumber = props => {
+  const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
+  const token = useSelector(reduxState => reduxState.auth.token);
+
+  const submitChanges = () => {
+    const queries = new FormData();
+    const userId = authInfo.userId;
+    queries.append('phone', '');
+    props.onUpdate(userId, queries, token);
+    props.navigation.pop(1);
+  };
+
+  const alertWindow = () => {
+    const title = 'Delete Phone Number';
+    const message = 'Are you sure you want to delete your phone number?';
+    const buttons = [
+      {
+        text: 'No',
+        type: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => submitChanges(),
+      },
+    ];
+    Alert.alert(title, message, buttons);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -15,9 +44,14 @@ const ManagePhoneNumber = () => {
           <View style={styles.boxArea}>
             <View style={styles.numberArea}>
               <Text style={styles.numberHeading}>Primary</Text>
-              <Text style={styles.numberContent}>+62 813 9387 7946</Text>
+              <Text style={styles.numberContent}>{authInfo.userPhone}</Text>
             </View>
-            <Ionicons name="trash-outline" size={30} color="#000" />
+            <Ionicons
+              name="trash-outline"
+              size={30}
+              color="#000"
+              onPress={() => alertWindow()}
+            />
           </View>
         </View>
       </View>
@@ -25,4 +59,18 @@ const ManagePhoneNumber = () => {
   );
 };
 
-export default ManagePhoneNumber;
+const mapStateToProps = ({auth}) => {
+  return {
+    auth,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onUpdate: (id, body, token) => {
+      dispatch(updateUserAction(id, body, token));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManagePhoneNumber);

@@ -15,6 +15,7 @@ const AddPhoneNumber = props => {
     const userId = authInfo.userId;
     queries.append('phone', phone);
     props.onUpdate(userId, queries, token);
+    props.navigation.pop(1);
   };
 
   const alertWindow = () => {
