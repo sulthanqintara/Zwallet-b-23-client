@@ -8,23 +8,25 @@ import {
   ToastAndroid,
   ScrollView,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {connect, useSelector} from 'react-redux';
 import {logoutAction} from '../../redux/actionCreators/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import socket from '../../utils/socket/SocketIo';
 
 import styles from './Style';
 import profilePlaceHolder from '../../assets/img/user.png';
 import {API_URL} from '@env';
 import {useFocusEffect} from '@react-navigation/core';
 import {getTransaction} from '../../utils/https/transaction';
+import {getUserById} from '../../utils/https/users';
 
 const Home = props => {
+  const [balance, setBalance] = useState(0);
   const [backButton, setBackButton] = useState(0);
   const [timer, setTimer] = useState(Date.now());
   const [cardData, setCardData] = useState([]);
   const token = useSelector(reduxState => reduxState.auth.token);
-  console.log(token);
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
   useFocusEffect(
     useCallback(() => {
@@ -56,17 +58,32 @@ const Home = props => {
         BackHandler.removeEventListener('hardwareBackPress', backAction);
     }, [backButton, timer]),
   );
+  let initValue = useRef(true);
   useEffect(() => {
     const params = {user_id: authInfo.userId, limit: 4};
-
-    const unsubscribe = props.navigation.addListener('focus', () => {
-      getTransaction(params, token).then(data => setCardData(data.data.result));
-    });
-    getTransaction(params, token).then(data => setCardData(data.data.result));
-    return unsubscribe;
+    getTransaction(params, token)
+      .then(data => setCardData(data.data.result))
+      .catch(err => {
+        console.log(err);
+      });
+    if (initValue.current) {
+      initValue.current = false;
+    } else {
+      const unsubscribe = props.navigation.addListener('focus', () => {
+        getTransaction(params, token).then(data =>
+          setCardData(data.data.result),
+        );
+        getUserById(authInfo.userId, token).then(data => {
+          console.log(data.data.result[0].userBalance);
+          setBalance(data.data.result[0].userBalance);
+        });
+      });
+      return unsubscribe;
+    }
   }, [authInfo.userId, props.navigation, token]);
 
   const logoutHandler = () => {
+    socket.off(`transaction_${authInfo.userId}`);
     props.onLogout(token, props.navigation.replace('Login'));
   };
 
@@ -86,7 +103,7 @@ const Home = props => {
         <View style={styles.headerTextContainer}>
           <Text style={[styles.nunito400, styles.balanceTxt]}>Balance</Text>
           <Text style={[styles.nunito700, styles.balanceAmount]}>
-            {authInfo.balance ? `Rp ${authInfo.balance}` : 'Rp 0'}
+            {balance ? `Rp ${balance}` : 'Rp 0'}
           </Text>
         </View>
         <Pressable>

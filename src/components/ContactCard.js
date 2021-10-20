@@ -10,7 +10,7 @@ const ContactCard = props => {
       onPress={() => {
         props.navigation.navigate('InputAmount', data);
       }}>
-      <Image source={image} style={styles.profilePicture} />
+      <Image source={{uri: image}} style={styles.profilePicture} />
       <View>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.phoneNumber}>{phone}</Text>

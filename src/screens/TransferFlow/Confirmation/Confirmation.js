@@ -1,10 +1,12 @@
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {API_URL} from '@env';
 import {View, Text, Pressable} from 'react-native';
 
 import ContactCard from '../../../components/ContactCard';
 import styles from './Styles';
 import styles2 from '../InputAmount/Styles';
+import {useSelector} from 'react-redux';
 
 const Confirmation = props => {
   const {route, navigation} = props;
@@ -22,6 +24,7 @@ const Confirmation = props => {
     'Nov',
     'Dec',
   ];
+  const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
   const data = route.params;
   const dateNow = new Date();
   const month = monthNames[dateNow.getMonth()];
@@ -40,9 +43,9 @@ const Confirmation = props => {
           </Text>
         </View>
         <ContactCard
-          image={route.params.image}
-          name={route.params.name}
-          phone={route.params.phone}
+          image={API_URL + data.userImage}
+          name={data.userUsername}
+          phone={data.userPhone}
           {...props}
         />
       </View>
@@ -60,7 +63,9 @@ const Confirmation = props => {
             <Text style={[styles.topCardTitleTxt, styles.nunito400]}>
               Balance Left
             </Text>
-            <Text style={[styles.topCardTxt, styles.nunito700]}>Rp20.000</Text>
+            <Text style={[styles.topCardTxt, styles.nunito700]}>
+              Rp {authInfo.balance - data.topUpNominal}
+            </Text>
           </View>
         </View>
         <View style={[styles.flexRow, styles.topCardContainer]}>

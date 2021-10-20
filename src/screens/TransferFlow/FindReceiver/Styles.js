@@ -48,4 +48,29 @@ export default StyleSheet.create({
     marginLeft: 16,
     marginTop: 16,
   },
+  cardContainer: {
+    backgroundColor: 'white',
+    width: 'auto',
+    borderRadius: 10,
+    padding: 16,
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  profilePicture: {
+    width: 56,
+    height: 56,
+    borderRadius: 10,
+    marginRight: 15,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: '700',
+    fontFamily: 'NunitoSans-Bold',
+    marginBottom: 10,
+  },
+  phoneNumber: {
+    fontSize: 14,
+    fontFamily: 'NunitoSans-Regular',
+  },
 });

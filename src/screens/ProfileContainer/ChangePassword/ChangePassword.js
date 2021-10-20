@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, Pressable} from 'react-native';
+import {View, Text, TextInput, Pressable, Alert} from 'react-native';
 import styles from './Style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {connect, useSelector} from 'react-redux';
+import {updatePassword} from '../../../utils/https/auth';
 
 const ChangePassword = props => {
+  const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
+  const token = useSelector(reduxState => reduxState.auth.token);
   const [currentPassword, setCurrentPassword] = useState(props.value);
   const [newPassword, setNewPassword] = useState(props.value);
   const [repeatPassword, setRepeatPassword] = useState(props.value);
@@ -14,6 +18,28 @@ const ChangePassword = props => {
   const iconCurrent = !currentVisible ? 'eye-outline' : 'eye-off-outline';
   const iconNew = !newVisible ? 'eye-outline' : 'eye-off-outline';
   const iconRepeat = !repeatVisible ? 'eye-outline' : 'eye-off-outline';
+
+  const changePass = () => {
+    const data = new URLSearchParams();
+    data.append('oldPass', currentPassword);
+    data.append('newPass', newPassword);
+    updatePassword(authInfo.userId, data, token);
+  };
+  const alertWindow = () => {
+    const title = 'Submit Profile Changes';
+    const message = 'Are you sure you want to submit these changes?';
+    const buttons = [
+      {
+        text: 'No',
+        type: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => changePass(),
+      },
+    ];
+    Alert.alert(title, message, buttons);
+  };
 
   return (
     <View style={styles.container}>
@@ -76,7 +102,7 @@ const ChangePassword = props => {
           </View>
         </View>
         <View style={styles.buttonArea}>
-          <Pressable style={styles.changeButton}>
+          <Pressable style={styles.changeButton} onPress={() => alertWindow()}>
             <Text style={styles.buttonText}>Change Password</Text>
           </Pressable>
         </View>
@@ -85,4 +111,10 @@ const ChangePassword = props => {
   );
 };
 
-export default ChangePassword;
+const mapStateToProps = ({auth}) => {
+  return {
+    auth,
+  };
+};
+
+export default connect(mapStateToProps)(ChangePassword);

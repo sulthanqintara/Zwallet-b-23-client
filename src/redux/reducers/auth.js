@@ -20,6 +20,7 @@ const authReducer = (prevState = initialState, action) => {
         isPending: true,
         isFulfilled: false,
         isRejected: false,
+        error: '',
       };
     case 'LOGIN'.concat('_', Rejected):
       return {
@@ -61,6 +62,53 @@ const authReducer = (prevState = initialState, action) => {
         authInfo: {},
         isLogin: false,
         token: '',
+        error: '',
+      };
+    case 'TOPUP'.concat('_', Pending):
+      return {
+        ...prevState,
+        isPending: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'TOPUP'.concat('_', Rejected):
+      return {
+        ...prevState,
+        isPending: true,
+        isRejected: false,
+        error: action.payload,
+      };
+    case 'TOPUP'.concat('_', Fulfilled):
+      console.log('topup', action.payload);
+      return {
+        ...prevState,
+        isPending: false,
+        isRejected: true,
+        authInfo: action.payload.data.result,
+        isLogin: false,
+      };
+    case 'UPDATE_PROFILE'.concat('_', Pending):
+      return {
+        ...prevState,
+        isPending: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'UPDATE_PROFILE'.concat('_', Rejected):
+      return {
+        ...prevState,
+        isPending: false,
+        isRejected: true,
+        error: action.payload,
+      };
+    case 'UPDATE_PROFILE'.concat('_', Fulfilled):
+      return {
+        ...prevState,
+        isPending: false,
+        isFulfilled: true,
+        error: '',
+        authInfo: action.payload.data.result[0],
+        isLogin: false,
       };
     default:
       return prevState;

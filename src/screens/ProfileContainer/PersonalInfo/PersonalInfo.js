@@ -1,9 +1,63 @@
-import React from 'react';
-import {View, Text, Pressable} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, Pressable, TextInput, Alert} from 'react-native';
 import styles from './Style';
+import {connect, useSelector} from 'react-redux';
+import {getUserById} from '../../../utils/https/users';
+import {updateUserAction} from '../../../redux/actionCreators/auth';
 
 const PersonalInfo = props => {
-  const havePhone = true;
+  const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
+  const token = useSelector(reduxState => reduxState.auth.token);
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [phone, setPhone] = useState();
+
+  const submitChanges = () => {
+    const queries = new FormData();
+    const userId = authInfo.userId;
+    queries.append('first_name', firstName);
+    queries.append('last_name', lastName);
+    props.onUpdate(userId, queries, token);
+  };
+
+  const alertWindow = () => {
+    const title = 'Submit Profile Changes';
+    const message = 'Are you sure you want to submit these changes?';
+    const buttons = [
+      {
+        text: 'No',
+        type: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => submitChanges(),
+      },
+    ];
+    Alert.alert(title, message, buttons);
+  };
+
+  useEffect(() => {
+    const params = authInfo.userId;
+
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      getUserById(params, token).then(data => {
+        console.log('data usernya', data.data.result[0]);
+        setFirstName(data.data.result[0].userFirstName);
+        setLastName(data.data.result[0].userLastName);
+        setEmail(data.data.result[0].userEmail);
+        setPhone(data.data.result[0].userPhone);
+      });
+    });
+    getUserById(params, token).then(data => {
+      console.log('data usernya', data.data.result[0]);
+      setFirstName(data.data.result[0].userFirstName);
+      setLastName(data.data.result[0].userLastName);
+      setEmail(data.data.result[0].userEmail);
+      setPhone(data.data.result[0].userPhone);
+    });
+    return unsubscribe;
+  }, [authInfo.userId, props.navigation, token]);
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -16,28 +70,25 @@ const PersonalInfo = props => {
         <View style={styles.dataArea}>
           <View style={styles.personalData}>
             <Text style={styles.boxHeading}>First Name</Text>
-            <Text style={styles.boxContent}>Robert</Text>
+            <TextInput
+              style={styles.boxContent}
+              defaultValue={firstName}
+              onEndEditing={e => setFirstName(e.nativeEvent.text)}
+            />
           </View>
           <View style={styles.personalData}>
             <Text style={styles.boxHeading}>Last Name</Text>
-            <Text style={styles.boxContent}>Chandler</Text>
+            <TextInput
+              style={styles.boxContent}
+              defaultValue={lastName}
+              onEndEditing={e => setLastName(e.nativeEvent.text)}
+            />
           </View>
           <View style={styles.personalData}>
             <Text style={styles.boxHeading}>Verified E-mail</Text>
-            <Text style={styles.boxContent}>pewdiepie1@gmail.com</Text>
+            <Text style={styles.boxContent}>{email}</Text>
           </View>
-          {havePhone ? (
-            <View style={styles.phoneData}>
-              <View>
-                <Text style={styles.boxHeading}>Phone Number</Text>
-                <Text style={styles.boxContent}>+62 813-9387-7946</Text>
-              </View>
-              <Pressable
-                onPress={() => props.navigation.navigate('ManagePhoneNumber')}>
-                <Text style={styles.manage}>Manage</Text>
-              </Pressable>
-            </View>
-          ) : (
+          {phone === undefined || phone === '0' || phone === '' ? (
             <View style={styles.personalData}>
               <Text style={styles.boxHeading}>Phone Number</Text>
               <Pressable
@@ -45,11 +96,39 @@ const PersonalInfo = props => {
                 <Text style={styles.addPhone}>Add Phone Number</Text>
               </Pressable>
             </View>
+          ) : (
+            <View style={styles.phoneData}>
+              <View>
+                <Text style={styles.boxHeading}>Phone Number</Text>
+                <Text style={styles.boxContent}>{phone}</Text>
+              </View>
+              <Pressable
+                onPress={() => props.navigation.navigate('ManagePhoneNumber')}>
+                <Text style={styles.manage}>Manage</Text>
+              </Pressable>
+            </View>
           )}
+          <Pressable style={styles.submitButton} onPress={alertWindow}>
+            <Text style={styles.buttonText}>Submit Changes</Text>
+          </Pressable>
         </View>
       </View>
     </View>
   );
 };
 
-export default PersonalInfo;
+const mapStateToProps = ({auth}) => {
+  return {
+    auth,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onUpdate: (id, body, token) => {
+      dispatch(updateUserAction(id, body, token));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalInfo);

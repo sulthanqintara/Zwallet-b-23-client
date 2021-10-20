@@ -5,6 +5,8 @@ import styles from './Style';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {loginAction} from '../../redux/actionCreators/auth';
+import PushNotification from 'react-native-push-notification';
+import socket from '../../utils/socket/SocketIo';
 
 const Login = props => {
   const [userLogin, setUserLogin] = useState('');
@@ -33,7 +35,15 @@ const Login = props => {
       isInitialMount.current = false;
     } else {
       if (props.auth.isLogin) {
-        props.navigation.reset({
+        socket.on('connect');
+        socket.on(`transaction_${props.auth.authInfo.userId}`, data => {
+          PushNotification.localNotification({
+            channelId: 'transaction-channel',
+            title: 'Incoming transaction',
+            message: data.message,
+          });
+        });
+        return props.navigation.reset({
           index: 0,
           routes: [{name: 'Home'}],
         });

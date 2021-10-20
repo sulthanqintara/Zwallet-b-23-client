@@ -1,19 +1,44 @@
 import React, {useState} from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, ToastAndroid} from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch, useSelector} from 'react-redux';
+import {topUpAction} from '../../../redux/actionCreators/auth';
+import {verifyToken} from '../../../utils/https/users';
 import styles2 from '../Confirmation/Styles';
 import Styles from './Styles';
 
 const TransferPin = props => {
   const {route, navigation} = props;
   const [pin, setPin] = useState('');
+  const token = useSelector(reduxState => reduxState.auth.token);
+  const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
   const data = route.params;
   const numPadHandler = num => {
     if (pin.length < 6) {
       return setPin(pin + num);
     }
+  };
+  const dispatch = useDispatch();
+  const buttonHandler = () => {
+    const pinBody = {user_id: authInfo.userId, pin};
+    return verifyToken(pinBody, token)
+      .then(() => {
+        const body = {
+          sender_id: authInfo.userId,
+          recipient_id: data.userId,
+          amount: data.topUpNominal,
+          status: 1,
+          transaction_status_id: 3,
+          notes: data.notes,
+        };
+        dispatch(topUpAction(body, token));
+        return navigation.navigate('FinalTransfer', {data});
+      })
+      .catch(() => {
+        return ToastAndroid.show('Pin is incorrect!', ToastAndroid.SHORT);
+      });
   };
   return (
     <View style={styles2.container}>
@@ -26,7 +51,7 @@ const TransferPin = props => {
             <Ionicons name="arrow-back" color="white" size={28} />
           </Pressable>
           <Text style={[styles2.headerTitle, styles2.nunito700]}>
-            Confirmation
+            Enter Your PIN
           </Text>
         </View>
       </View>
@@ -137,11 +162,7 @@ const TransferPin = props => {
           </View>
         </View>
         {pin.length === 6 ? (
-          <Pressable
-            style={Styles.continueButton}
-            onPress={() => {
-              navigation.navigate('FinalTransfer', data);
-            }}>
+          <Pressable style={Styles.continueButton} onPress={buttonHandler}>
             <Text style={[Styles.transferBtnText, styles2.nunito700]}>
               Transfer Now
             </Text>
