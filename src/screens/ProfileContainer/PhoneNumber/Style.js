@@ -25,11 +25,16 @@ export default StyleSheet.create({
     fontSize: 16,
     color: '#7A7886',
   },
-  textInput: {
-    borderBottomColor: '#A9A9A9',
+  phoneContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderBottomWidth: 1,
+    borderBottomColor: '#A9A9A9',
+  },
+  textInput: {
     alignSelf: 'stretch',
     width: '100%',
+    color: '#A9A9A9',
   },
   buttonArea: {
     height: '20%',

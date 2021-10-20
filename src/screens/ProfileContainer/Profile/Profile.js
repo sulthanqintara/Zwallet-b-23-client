@@ -46,13 +46,18 @@ const Profile = props => {
     const options = {};
     launchImageLibrary(options, res => {
       console.log('response', res);
-      setImage(res.assets[0]);
+      setImage(res.assets[0].uri);
     });
   };
   const handleCamera = () => {
-    const options = {};
-    launchCamera(options, imageRes => {
-      console.log('response', imageRes.assets[0]);
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchCamera(options, res => {
+      console.log('response', res);
     });
   };
   const requestCameraPermission = async () => {
@@ -92,7 +97,10 @@ const Profile = props => {
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.profileArea}>
-          <Image source={profilePlaceHolder} style={styles.profilePic} />
+          <Image
+            source={image ? {uri: image} : profilePlaceHolder}
+            style={styles.profilePic}
+          />
           <Pressable style={styles.editArea} onPress={() => picturePrompt()}>
             <Ionicons name="pencil" size={20} color="#000" />
             <Text style={styles.textHeading}>Edit</Text>
