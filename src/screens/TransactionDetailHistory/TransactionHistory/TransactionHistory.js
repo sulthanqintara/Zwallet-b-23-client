@@ -54,7 +54,6 @@ const TransactionHistory = props => {
       });
   };
   const expenseHandler = () => {
-    console.log(income);
     if (income) {
       setIncome(!income);
       setExpense(!expense);
@@ -80,7 +79,6 @@ const TransactionHistory = props => {
   };
 
   const incomeHandler = () => {
-    console.log(income);
     if (expense) {
       setExpense(!expense);
       setIncome(!income);

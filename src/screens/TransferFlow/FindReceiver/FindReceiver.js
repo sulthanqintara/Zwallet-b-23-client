@@ -69,7 +69,6 @@ const FindReceiver = props => {
         data={data}
         renderItem={({item}) => {
           const pic = API_URL + item.userImage;
-          console.log(item);
           if (item.userId !== authInfo.userId) {
             return (
               <Pressable

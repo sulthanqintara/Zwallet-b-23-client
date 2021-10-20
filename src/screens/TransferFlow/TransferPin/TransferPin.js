@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, ToastAndroid} from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useSelector} from 'react-redux';
-import {postTransaction} from '../../../utils/https/transaction';
+import {useDispatch, useSelector} from 'react-redux';
+import {topUpAction} from '../../../redux/actionCreators/auth';
+import {verifyToken} from '../../../utils/https/users';
 import styles2 from '../Confirmation/Styles';
 import Styles from './Styles';
 
@@ -19,21 +20,24 @@ const TransferPin = props => {
       return setPin(pin + num);
     }
   };
+  const dispatch = useDispatch();
   const buttonHandler = () => {
-    const body = {
-      sender_id: authInfo.userId,
-      recipient_id: data.userId,
-      amount: data.topUpNominal,
-      status: 1,
-      transaction_status_id: 3,
-      notes: data.notes,
-    };
-    postTransaction(body, token)
-      .then(result => {
-        navigation.navigate('FinalTransfer', {data});
+    const pinBody = {user_id: authInfo.userId, pin};
+    return verifyToken(pinBody, token)
+      .then(() => {
+        const body = {
+          sender_id: authInfo.userId,
+          recipient_id: data.userId,
+          amount: data.topUpNominal,
+          status: 1,
+          transaction_status_id: 3,
+          notes: data.notes,
+        };
+        dispatch(topUpAction(body, token));
+        return navigation.navigate('FinalTransfer', {data});
       })
-      .catch(err => {
-        navigation.navigate('FinalTransfer', {data, response: String(err)});
+      .catch(() => {
+        return ToastAndroid.show('Pin is incorrect!', ToastAndroid.SHORT);
       });
   };
   return (

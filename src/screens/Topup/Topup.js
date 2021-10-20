@@ -20,7 +20,6 @@ const Topup = props => {
   const token = useSelector(reduxState => reduxState.auth.token);
   const [amount, setAmount] = useState(0);
   const dispatch = useDispatch();
-  console.log(authInfo);
   const addBalanceHandler = () => {
     if (amount < 10000) {
       return ToastAndroid.show(
