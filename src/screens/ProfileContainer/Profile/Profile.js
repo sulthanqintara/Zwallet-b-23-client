@@ -7,14 +7,20 @@ import {
   Image,
   PermissionsAndroid,
   Alert,
+  Platform,
 } from 'react-native';
-import profilePlaceHolder from '../../../assets/img/profile.png';
+import profilePlaceHolder from '../../../assets/img/user.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './Style';
 import {connect, useSelector} from 'react-redux';
 import {getUserById} from '../../../utils/https/users';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {API_URL} from '@env';
 import socket from '../../../utils/socket/SocketIo';
+import {
+  logoutAction,
+  updateUserAction,
+} from '../../../redux/actionCreators/auth';
 
 const Profile = props => {
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
@@ -22,7 +28,9 @@ const Profile = props => {
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [phone, setPhone] = useState();
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(profilePlaceHolder);
+  const [upload, setUpload] = useState();
+
   useEffect(() => {
     const params = authInfo.userId;
 
@@ -43,17 +51,55 @@ const Profile = props => {
     return unsubscribe;
   }, [authInfo.userId, props.navigation, token]);
 
+  const alertWindow = () => {
+    const title = 'Submit Profile Changes';
+    const message = 'Are you sure you want to submit these changes?';
+    const buttons = [
+      {
+        text: 'No',
+        type: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => onSubmit(),
+      },
+    ];
+    Alert.alert(title, message, buttons);
+  };
+
+  const onSubmit = () => {
+    const id = authInfo.userId;
+    const data = new FormData();
+    upload !== '' &&
+      data.append('image', {
+        name: upload.fileName,
+        type: upload.type,
+        uri:
+          Platform.OS === 'android'
+            ? upload.uri
+            : upload.uri.replace('file://', ''),
+      });
+    props.onUpdate(id, data, token);
+  };
   const handleChoosePhoto = () => {
     const options = {};
     launchImageLibrary(options, res => {
       console.log('response', res);
-      setImage(res.assets[0]);
+      setImage(res.assets[0].uri);
+      setUpload(res.assets[0]);
     });
   };
   const handleCamera = () => {
-    const options = {};
-    launchCamera(options, imageRes => {
-      console.log('response', imageRes.assets[0]);
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchCamera(options, res => {
+      console.log('response', res);
+      setImage(res.assets[0].uri);
+      setUpload(res.assets[0]);
     });
   };
   const requestCameraPermission = async () => {
@@ -95,14 +141,38 @@ const Profile = props => {
     props.onLogout(token, props.navigation.replace('Login'));
   };
 
+  const alertWindowLogout = () => {
+    const title = 'Confirm logout';
+    const message = 'Are you sure you want to logout?';
+    const buttons = [
+      {
+        text: 'No',
+        type: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => logoutHandler(),
+      },
+    ];
+    Alert.alert(title, message, buttons);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.profileArea}>
-          <Image source={profilePlaceHolder} style={styles.profilePic} />
+          <Image
+            source={
+              authInfo.profilePic ? {uri: API_URL + authInfo.profilePic} : image
+            }
+            style={styles.profilePic}
+          />
           <Pressable style={styles.editArea} onPress={() => picturePrompt()}>
             <Ionicons name="pencil" size={20} color="#000" />
             <Text style={styles.textHeading}>Edit</Text>
+          </Pressable>
+          <Pressable onPress={() => alertWindow()}>
+            <Text>Submit</Text>
           </Pressable>
           <Text style={styles.nameHeading}>
             {firstName && lastName
@@ -138,7 +208,9 @@ const Profile = props => {
             <Text style={styles.buttonText}>Notification</Text>
             <Switch />
           </Pressable>
-          <Pressable style={styles.profileButton} onPress={logoutHandler}>
+          <Pressable
+            style={styles.profileButton}
+            onPress={() => alertWindowLogout()}>
             <Text style={styles.buttonText}>Logout</Text>
           </Pressable>
         </View>
@@ -153,4 +225,15 @@ const mapStateToProps = ({auth}) => {
   };
 };
 
-export default connect(mapStateToProps)(Profile);
+const mapDispatchToProps = dispatch => {
+  return {
+    onUpdate: (id, body, token) => {
+      dispatch(updateUserAction(id, body, token));
+    },
+    onLogout: token => {
+      dispatch(logoutAction(token));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

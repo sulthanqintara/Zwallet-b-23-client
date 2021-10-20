@@ -11,9 +11,12 @@ const AddPhoneNumber = props => {
   const [phone, setPhone] = useState();
 
   const submitChanges = () => {
+    console.log(phone);
     const queries = new FormData();
     const userId = authInfo.userId;
-    queries.append('phone', phone);
+    const phoneNumber = '0'.concat(phone);
+    console.log(phoneNumber);
+    queries.append('phone', phoneNumber);
     props.onUpdate(userId, queries, token);
     props.navigation.pop(1);
   };
@@ -41,14 +44,17 @@ const AddPhoneNumber = props => {
             Add at least one phone number for the transfer ID so you can start
             transfering your money to another user.
           </Text>
-          <Ionicons name="call-outline" size={20} color="#000" />
-          <Text>+62</Text>
-          <TextInput
-            placeholder="Enter your phone number"
-            keyboardType="number-pad"
-            style={styles.textInput}
-            onEndEditing={e => setPhone(e.nativeEvent.text)}
-          />
+          <View style={styles.phoneContainer}>
+            <Ionicons name="call-outline" size={20} color="#000" />
+            <Text>+62</Text>
+            <TextInput
+              placeholder="Enter your phone number"
+              keyboardType="number-pad"
+              maxLength={11}
+              style={styles.textInput}
+              onChangeText={e => setPhone(e)}
+            />
+          </View>
         </View>
         <View style={styles.buttonArea}>
           <Pressable style={styles.changeButton} onPress={() => alertWindow()}>
