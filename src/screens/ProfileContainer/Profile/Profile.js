@@ -16,6 +16,11 @@ import {connect, useSelector} from 'react-redux';
 import {getUserById} from '../../../utils/https/users';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {API_URL} from '@env';
+import socket from '../../../utils/socket/SocketIo';
+import {
+  logoutAction,
+  updateUserAction,
+} from '../../../redux/actionCreators/auth';
 
 const Profile = props => {
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
@@ -25,6 +30,11 @@ const Profile = props => {
   const [phone, setPhone] = useState();
   const [image, setImage] = useState(profilePlaceHolder);
   const [upload, setUpload] = useState();
+
+  const logoutHandler = () => {
+    socket.off(`transaction_${authInfo.userId}`);
+    props.onLogout(token, props.navigation.replace('Login'));
+  };
 
   useEffect(() => {
     const params = authInfo.userId;
@@ -63,6 +73,7 @@ const Profile = props => {
   };
 
   const onSubmit = () => {
+    const id = authInfo.userId;
     const data = new FormData();
     upload !== '' &&
       data.append('image', {
@@ -73,6 +84,7 @@ const Profile = props => {
             ? upload.uri
             : upload.uri.replace('file://', ''),
       });
+    props.onUpdate(id, data, token);
   };
   const handleChoosePhoto = () => {
     const options = {};
@@ -179,7 +191,7 @@ const Profile = props => {
             <Text style={styles.buttonText}>Notification</Text>
             <Switch />
           </Pressable>
-          <Pressable style={styles.profileButton}>
+          <Pressable style={styles.profileButton} onPress={logoutHandler}>
             <Text style={styles.buttonText}>Logout</Text>
           </Pressable>
         </View>
@@ -194,4 +206,15 @@ const mapStateToProps = ({auth}) => {
   };
 };
 
-export default connect(mapStateToProps)(Profile);
+const mapDispatchToProps = dispatch => {
+  return {
+    onUpdate: (id, body, token) => {
+      dispatch(updateUserAction(id, body, token));
+    },
+    onLogout: token => {
+      dispatch(logoutAction(token));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
