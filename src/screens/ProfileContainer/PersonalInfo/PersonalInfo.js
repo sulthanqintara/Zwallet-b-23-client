@@ -88,7 +88,15 @@ const PersonalInfo = props => {
             <Text style={styles.boxHeading}>Verified E-mail</Text>
             <Text style={styles.boxContent}>{email}</Text>
           </View>
-          {phone ? (
+          {phone === undefined || phone === '0' || phone === '' ? (
+            <View style={styles.personalData}>
+              <Text style={styles.boxHeading}>Phone Number</Text>
+              <Pressable
+                onPress={() => props.navigation.navigate('AddPhoneNumber')}>
+                <Text style={styles.addPhone}>Add Phone Number</Text>
+              </Pressable>
+            </View>
+          ) : (
             <View style={styles.phoneData}>
               <View>
                 <Text style={styles.boxHeading}>Phone Number</Text>
@@ -97,14 +105,6 @@ const PersonalInfo = props => {
               <Pressable
                 onPress={() => props.navigation.navigate('ManagePhoneNumber')}>
                 <Text style={styles.manage}>Manage</Text>
-              </Pressable>
-            </View>
-          ) : (
-            <View style={styles.personalData}>
-              <Text style={styles.boxHeading}>Phone Number</Text>
-              <Pressable
-                onPress={() => props.navigation.navigate('AddPhoneNumber')}>
-                <Text style={styles.addPhone}>Add Phone Number</Text>
               </Pressable>
             </View>
           )}
