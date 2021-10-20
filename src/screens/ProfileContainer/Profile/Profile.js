@@ -1,10 +1,35 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Pressable, Switch, Image} from 'react-native';
 import profilePlaceHolder from '../../../assets/img/profile.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './Style';
+import {connect, useSelector} from 'react-redux';
+import {getUserById} from '../../../utils/https/users';
 
 const Profile = props => {
+  const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
+  const token = useSelector(reduxState => reduxState.auth.token);
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+
+  useEffect(() => {
+    const params = authInfo.userId;
+
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      getUserById(params, token).then(data => {
+        console.log('data usernya', data.data.result[0]);
+        setFirstName(data.data.result[0].userFirstName);
+        setLastName(data.data.result[0].userLastName);
+      });
+    });
+    getUserById(params, token).then(data => {
+      console.log('data usernya', data.data.result[0]);
+      setFirstName(data.data.result[0].userFirstName);
+      setLastName(data.data.result[0].userLastName);
+    });
+    return unsubscribe;
+  }, [authInfo.userId, props.navigation, token]);
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -14,7 +39,9 @@ const Profile = props => {
             <Ionicons name="pencil" size={20} color="#000" />
             <Text style={styles.textHeading}>Edit</Text>
           </Pressable>
-          <Text style={styles.nameHeading}>Robert Chandler</Text>
+          <Text style={styles.nameHeading}>
+            {firstName} {lastName}
+          </Text>
           <Text style={styles.textHeading}>+62 813-9387-7946</Text>
         </View>
         <View style={styles.buttonArea}>
@@ -51,4 +78,10 @@ const Profile = props => {
   );
 };
 
-export default Profile;
+const mapStateToProps = ({auth}) => {
+  return {
+    auth,
+  };
+};
+
+export default connect(mapStateToProps)(Profile);

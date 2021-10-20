@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {loginAction} from '../../redux/actionCreators/auth';
 
 const Login = props => {
-  console.log(props.auth.error.message);
+  // console.log(props.auth.error.message);
   const [userLogin, setUserLogin] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);

@@ -20,6 +20,7 @@ export default StyleSheet.create({
     color: '#7A7886',
   },
   dataArea: {
+    marginTop: -30,
     width: '90%',
     height: '50%',
   },
@@ -27,7 +28,7 @@ export default StyleSheet.create({
     backgroundColor: '#FFF',
     elevation: 0.5,
     height: '20%',
-    marginVertical: 20,
+    marginVertical: 10,
     justifyContent: 'space-evenly',
     paddingHorizontal: 10,
     borderRadius: 10,
@@ -62,5 +63,20 @@ export default StyleSheet.create({
     fontFamily: 'NunitoSans-Bold',
     fontSize: 22,
     color: '#6379F4',
+  },
+  submitButton: {
+    backgroundColor: '#6379F4',
+    elevation: 0.5,
+    height: '20%',
+    marginVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    borderRadius: 10,
+  },
+  buttonText: {
+    fontFamily: 'NunitoSans-Bold',
+    color: '#FFF',
+    fontSize: 18,
   },
 });
