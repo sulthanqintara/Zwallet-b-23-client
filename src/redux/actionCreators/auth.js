@@ -1,4 +1,5 @@
 import {deleteLogout, postLogin} from '../../utils/https/auth';
+import {editUser} from '../../utils/https/users';
 
 export const loginAction = body => {
   return {
@@ -11,5 +12,12 @@ export const logoutAction = token => {
   return {
     type: 'LOGOUT',
     payload: deleteLogout(token),
+  };
+};
+
+export const updateUserAction = (id, body, token) => {
+  return {
+    type: 'UPDATE_PROFILE',
+    payload: editUser(id, body, token),
   };
 };

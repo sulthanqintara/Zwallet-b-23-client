@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {loginAction} from '../../redux/actionCreators/auth';
 
 const Login = props => {
-  console.log(props.auth.error.message);
+  // console.log(props.auth.error.message);
   const [userLogin, setUserLogin] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
@@ -18,9 +18,9 @@ const Login = props => {
     if (password === '') {
       return setError('Password are required');
     }
-    if (props.auth.error.message.includes(401) === true) {
-      return setError('Invalid Email or Password');
-    }
+    // if (props.auth.error.message.includes(401) === true) {
+    //   return setError('Invalid Email or Password');
+    // }
 
     const data = new URLSearchParams();
     data.append('userLogin', userLogin);
