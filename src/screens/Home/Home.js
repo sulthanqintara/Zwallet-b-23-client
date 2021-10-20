@@ -66,6 +66,10 @@ const Home = props => {
       .catch(err => {
         console.log(err);
       });
+    getUserById(authInfo.userId, token).then(data => {
+      console.log(data.data.result[0].userBalance);
+      setBalance(data.data.result[0].userBalance);
+    });
     if (initValue.current) {
       initValue.current = false;
     } else {
