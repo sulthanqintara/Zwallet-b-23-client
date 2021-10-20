@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, Pressable, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  Alert,
+  ToastAndroid,
+} from 'react-native';
 import styles from './Style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect, useSelector} from 'react-redux';
@@ -14,12 +21,37 @@ const ChangePassword = props => {
   const [currentVisible, setCurrentVisible] = useState(false);
   const [newVisible, setNewVisible] = useState(false);
   const [repeatVisible, setRepeatVisible] = useState(false);
+  const [error, setError] = useState(false);
 
   const iconCurrent = !currentVisible ? 'eye-outline' : 'eye-off-outline';
   const iconNew = !newVisible ? 'eye-outline' : 'eye-off-outline';
   const iconRepeat = !repeatVisible ? 'eye-outline' : 'eye-off-outline';
 
   const changePass = () => {
+    if (currentPassword === '') {
+      ToastAndroid.show(
+        'Please fill out current password.',
+        ToastAndroid.SHORT,
+      );
+    }
+    if (newPassword === '') {
+      ToastAndroid.show(
+        'Please fill out your new password.',
+        ToastAndroid.SHORT,
+      );
+    }
+    if (repeatPassword === '') {
+      ToastAndroid.show(
+        'Please repeat the input for the new password.',
+        ToastAndroid.SHORT,
+      );
+    }
+    if (repeatPassword !== newPassword) {
+      ToastAndroid.show(
+        'Confirm Password does not match with new password.',
+        ToastAndroid.SHORT,
+      );
+    }
     const data = new URLSearchParams();
     data.append('oldPass', currentPassword);
     data.append('newPass', newPassword);

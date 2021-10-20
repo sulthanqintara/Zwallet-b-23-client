@@ -7,6 +7,7 @@ import {
   Image,
   PermissionsAndroid,
   Alert,
+  Platform,
 } from 'react-native';
 import profilePlaceHolder from '../../../assets/img/profile.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -14,6 +15,7 @@ import styles from './Style';
 import {connect, useSelector} from 'react-redux';
 import {getUserById} from '../../../utils/https/users';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {API_URL} from '@env';
 
 const Profile = props => {
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
@@ -21,7 +23,9 @@ const Profile = props => {
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [phone, setPhone] = useState();
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(profilePlaceHolder);
+  const [upload, setUpload] = useState();
+
   useEffect(() => {
     const params = authInfo.userId;
 
@@ -42,11 +46,40 @@ const Profile = props => {
     return unsubscribe;
   }, [authInfo.userId, props.navigation, token]);
 
+  const alertWindow = () => {
+    const title = 'Submit Profile Changes';
+    const message = 'Are you sure you want to submit these changes?';
+    const buttons = [
+      {
+        text: 'No',
+        type: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => onSubmit(),
+      },
+    ];
+    Alert.alert(title, message, buttons);
+  };
+
+  const onSubmit = () => {
+    const data = new FormData();
+    upload !== '' &&
+      data.append('image', {
+        name: upload.fileName,
+        type: upload.type,
+        uri:
+          Platform.OS === 'android'
+            ? upload.uri
+            : upload.uri.replace('file://', ''),
+      });
+  };
   const handleChoosePhoto = () => {
     const options = {};
     launchImageLibrary(options, res => {
       console.log('response', res);
       setImage(res.assets[0].uri);
+      setUpload(res.assets[0]);
     });
   };
   const handleCamera = () => {
@@ -58,6 +91,8 @@ const Profile = props => {
     };
     launchCamera(options, res => {
       console.log('response', res);
+      setImage(res.assets[0].uri);
+      setUpload(res.assets[0]);
     });
   };
   const requestCameraPermission = async () => {
@@ -98,12 +133,17 @@ const Profile = props => {
       <View style={styles.content}>
         <View style={styles.profileArea}>
           <Image
-            source={image ? {uri: image} : profilePlaceHolder}
+            source={
+              authInfo.profilePic ? {uri: API_URL + authInfo.profilePic} : image
+            }
             style={styles.profilePic}
           />
           <Pressable style={styles.editArea} onPress={() => picturePrompt()}>
             <Ionicons name="pencil" size={20} color="#000" />
             <Text style={styles.textHeading}>Edit</Text>
+          </Pressable>
+          <Pressable onPress={() => alertWindow()}>
+            <Text>Submit</Text>
           </Pressable>
           <Text style={styles.nameHeading}>
             {firstName && lastName

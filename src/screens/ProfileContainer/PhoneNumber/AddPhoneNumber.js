@@ -16,7 +16,7 @@ const AddPhoneNumber = props => {
     const userId = authInfo.userId;
     const phoneNumber = '0'.concat(phone);
     console.log(phoneNumber);
-    queries.append('phone', phone);
+    queries.append('phone', phoneNumber);
     props.onUpdate(userId, queries, token);
     props.navigation.pop(1);
   };
@@ -52,7 +52,7 @@ const AddPhoneNumber = props => {
               keyboardType="number-pad"
               maxLength={11}
               style={styles.textInput}
-              onEndEditing={e => setPhone(e.nativeEvent.text)}
+              onChangeText={e => setPhone(e)}
             />
           </View>
         </View>
