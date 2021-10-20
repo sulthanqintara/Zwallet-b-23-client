@@ -19,8 +19,10 @@ import profilePlaceHolder from '../../assets/img/user.png';
 import {API_URL} from '@env';
 import {useFocusEffect} from '@react-navigation/core';
 import {getTransaction} from '../../utils/https/transaction';
+import {getUserById} from '../../utils/https/users';
 
 const Home = props => {
+  const [balance, setBalance] = useState(0);
   const [backButton, setBackButton] = useState(0);
   const [timer, setTimer] = useState(Date.now());
   const [cardData, setCardData] = useState([]);
@@ -71,6 +73,10 @@ const Home = props => {
         getTransaction(params, token).then(data =>
           setCardData(data.data.result),
         );
+        getUserById(authInfo.userId, token).then(data => {
+          console.log(data.data.result[0].userBalance);
+          setBalance(data.data.result[0].userBalance);
+        });
       });
       return unsubscribe;
     }
@@ -97,7 +103,7 @@ const Home = props => {
         <View style={styles.headerTextContainer}>
           <Text style={[styles.nunito400, styles.balanceTxt]}>Balance</Text>
           <Text style={[styles.nunito700, styles.balanceAmount]}>
-            {authInfo.balance ? `Rp ${authInfo.balance}` : 'Rp 0'}
+            {balance ? `Rp ${balance}` : 'Rp 0'}
           </Text>
         </View>
         <Pressable>
