@@ -1,10 +1,41 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {API_URL} from '@env';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 import styles from './Style';
 import Icon from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
 
 const ResetPassword = props => {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState(false);
+
+  const onSubmit = () => {
+    if (email === '') {
+      return setError('E-mail or Username are required!');
+    }
+    if (!email.includes('@')) {
+      return setError('Please input a valid Email');
+    }
+
+    const data = new URLSearchParams();
+    data.append('email', email);
+    axios
+      .post(`${API_URL}/users/forgot_password`, data)
+      .then(res => {
+        console.log(res);
+        props.navigation.replace('Confirm-Otp', {email});
+        return ToastAndroid.show('Success get code', ToastAndroid.SHORT);
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -22,22 +53,33 @@ const ResetPassword = props => {
             placeholder="Enter your e-mail"
             keyboardType="email-address"
             placeholderTextColor="#A9A9A9"
+            onChangeText={value => {
+              setEmail(value);
+              setError(false);
+            }}
+            value={email}
           />
         </View>
-        {/* <View style={styles.wrapperButton}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => props.navigation.navigate('Create-Password')}>
-            <Text style={styles.buttonText}>Confirm</Text>
-          </TouchableOpacity>
-        </View> */}
-        <View style={styles.wrapperButton}>
-          <TouchableOpacity
-            style={[styles.button, {backgroundColor: '#6379F4'}]}
-            onPress={() => props.navigation.navigate('Confirm-Otp')}>
-            <Text style={[styles.buttonText, {color: 'white'}]}>Confirm</Text>
-          </TouchableOpacity>
-        </View>
+        {error && (
+          <View style={styles.wrapperError}>
+            <Text style={styles.textError}>{error}</Text>
+          </View>
+        )}
+        {email !== '' ? (
+          <View style={styles.wrapperButton}>
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: '#6379F4'}]}
+              onPress={onSubmit}>
+              <Text style={[styles.buttonText, {color: 'white'}]}>Confirm</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.wrapperButton}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Confirm</Text>
+            </View>
+          </View>
+        )}
       </View>
     </View>
   );

@@ -33,21 +33,6 @@ const Register = props => {
     };
 
     props.navigation.replace('Create-Pin', {data});
-    // postRegister(data)
-    //   .then(res => {
-    //     console.log(res);
-    //     props.navigation.navigate('Login');
-    //     return ToastAndroid.show(
-    //       'success register! login now',
-    //       ToastAndroid.SHORT,
-    //     );
-    //   })
-    //   .catch(err => {
-    //     console.log(err.message);
-    //     if (err.message.includes(409) === true) {
-    //       return setError('E-mail or Username already registered!');
-    //     }
-    //   });
   };
   return (
     <View style={styles.container}>
