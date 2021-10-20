@@ -3,7 +3,6 @@ import {
   Text,
   Image,
   Pressable,
-  TouchableOpacity,
   BackHandler,
   ToastAndroid,
   ScrollView,
@@ -12,7 +11,6 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {connect, useSelector} from 'react-redux';
 import {logoutAction} from '../../redux/actionCreators/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import socket from '../../utils/socket/SocketIo';
 
 import styles from './Style';
 import profilePlaceHolder from '../../assets/img/user.png';
@@ -85,11 +83,6 @@ const Home = props => {
       return unsubscribe;
     }
   }, [authInfo.userId, props.navigation, token]);
-
-  const logoutHandler = () => {
-    socket.off(`transaction_${authInfo.userId}`);
-    props.onLogout(token, props.navigation.replace('Login'));
-  };
 
   return (
     <View style={styles.container}>
@@ -196,11 +189,6 @@ const Home = props => {
             </View>
           );
         })}
-        <View style={styles.wrapperButton}>
-          <TouchableOpacity style={styles.button} onPress={logoutHandler}>
-            <Text style={styles.buttonText}>Logout</Text>
-          </TouchableOpacity>
-        </View>
       </ScrollView>
     </View>
   );

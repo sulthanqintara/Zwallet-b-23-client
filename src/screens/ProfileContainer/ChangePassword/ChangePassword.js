@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  Alert,
-  ToastAndroid,
-} from 'react-native';
+import {View, Text, TextInput, Pressable, Alert} from 'react-native';
 import styles from './Style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect, useSelector} from 'react-redux';
@@ -28,30 +21,19 @@ const ChangePassword = props => {
   const iconRepeat = !repeatVisible ? 'eye-outline' : 'eye-off-outline';
 
   const changePass = () => {
-    if (currentPassword === '') {
-      ToastAndroid.show(
-        'Please fill out current password.',
-        ToastAndroid.SHORT,
-      );
+    if (currentPassword < 6) {
+      return setError('Current password must contain 6 or more characters');
     }
-    if (newPassword === '') {
-      ToastAndroid.show(
-        'Please fill out your new password.',
-        ToastAndroid.SHORT,
-      );
+    if (newPassword < 6) {
+      return setError('New password must contain 6 or more characters');
     }
-    if (repeatPassword === '') {
-      ToastAndroid.show(
-        'Please repeat the input for the new password.',
-        ToastAndroid.SHORT,
-      );
+    if (repeatPassword < 6) {
+      return setError('Repeat password must contain 6 or more characters');
     }
-    if (repeatPassword !== newPassword) {
-      ToastAndroid.show(
-        'Confirm Password does not match with new password.',
-        ToastAndroid.SHORT,
-      );
+    if (newPassword !== repeatPassword) {
+      return setError("Password didn't match!");
     }
+
     const data = new URLSearchParams();
     data.append('oldPass', currentPassword);
     data.append('newPass', newPassword);
@@ -89,6 +71,7 @@ const ChangePassword = props => {
               style={styles.textInput}
               onChange={e => {
                 setCurrentPassword(e.nativeEvent.text);
+                setError(false);
               }}
             />
             <Ionicons
@@ -106,6 +89,7 @@ const ChangePassword = props => {
               style={styles.textInput}
               onChange={e => {
                 setNewPassword(e.nativeEvent.text);
+                setError(false);
               }}
             />
             <Ionicons
@@ -123,6 +107,7 @@ const ChangePassword = props => {
               style={styles.textInput}
               onChange={e => {
                 setRepeatPassword(e.nativeEvent.text);
+                setError(false);
               }}
             />
             <Ionicons
@@ -133,6 +118,11 @@ const ChangePassword = props => {
             />
           </View>
         </View>
+        {error && (
+          <View style={styles.wrapperError}>
+            <Text style={styles.textError}>{error}</Text>
+          </View>
+        )}
         <View style={styles.buttonArea}>
           <Pressable style={styles.changeButton} onPress={() => alertWindow()}>
             <Text style={styles.buttonText}>Change Password</Text>

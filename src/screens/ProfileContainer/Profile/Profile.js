@@ -9,7 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import profilePlaceHolder from '../../../assets/img/profile.png';
+import profilePlaceHolder from '../../../assets/img/user.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './Style';
 import {connect, useSelector} from 'react-redux';
@@ -30,11 +30,6 @@ const Profile = props => {
   const [phone, setPhone] = useState();
   const [image, setImage] = useState(profilePlaceHolder);
   const [upload, setUpload] = useState();
-
-  const logoutHandler = () => {
-    socket.off(`transaction_${authInfo.userId}`);
-    props.onLogout(token, props.navigation.replace('Login'));
-  };
 
   useEffect(() => {
     const params = authInfo.userId;
@@ -140,6 +135,28 @@ const Profile = props => {
     ];
     Alert.alert(title, message, buttons);
   };
+
+  const logoutHandler = () => {
+    socket.off(`transaction_${authInfo.userId}`);
+    props.onLogout(token, props.navigation.replace('Login'));
+  };
+
+  const alertWindowLogout = () => {
+    const title = 'Confirm logout';
+    const message = 'Are you sure you want to logout?';
+    const buttons = [
+      {
+        text: 'No',
+        type: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => logoutHandler(),
+      },
+    ];
+    Alert.alert(title, message, buttons);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -191,7 +208,9 @@ const Profile = props => {
             <Text style={styles.buttonText}>Notification</Text>
             <Switch />
           </Pressable>
-          <Pressable style={styles.profileButton} onPress={logoutHandler}>
+          <Pressable
+            style={styles.profileButton}
+            onPress={() => alertWindowLogout()}>
             <Text style={styles.buttonText}>Logout</Text>
           </Pressable>
         </View>

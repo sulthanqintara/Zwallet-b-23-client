@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Pressable, ScrollView, ToastAndroid} from 'react-native';
+import {View, Text, Pressable, ScrollView} from 'react-native';
 import styles from './Style';
 import styles2 from '../../TransferFlow/Confirmation/Styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
