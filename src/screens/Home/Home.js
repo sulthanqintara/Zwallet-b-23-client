@@ -24,7 +24,6 @@ const Home = props => {
   const [timer, setTimer] = useState(Date.now());
   const [cardData, setCardData] = useState([]);
   const token = useSelector(reduxState => reduxState.auth.token);
-  console.log(token);
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
   useFocusEffect(
     useCallback(() => {

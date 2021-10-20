@@ -34,7 +34,6 @@ const FinalTransfer = props => {
     'Nov',
     'Dec',
   ];
-  console.log(data);
   const month = monthNames[transactionDate.getMonth()];
   let status = true;
   useEffect(() => {
@@ -88,7 +87,7 @@ const FinalTransfer = props => {
               Balance Left
             </Text>
             <Text style={[styles.nunito700, styles.cardSubTitle]}>
-              Rp {authInfo.balance - data.topUpNominal}
+              Rp {authInfo.balance}
             </Text>
           </View>
         </View>

@@ -26,7 +26,6 @@ const Confirmation = props => {
   ];
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
   const data = route.params;
-  console.log(data);
   const dateNow = new Date();
   const month = monthNames[dateNow.getMonth()];
   return (
