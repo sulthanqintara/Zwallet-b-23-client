@@ -85,8 +85,14 @@ const Profile = props => {
     const options = {};
     launchImageLibrary(options, res => {
       console.log('response', res);
-      setImage(res.assets[0].uri);
-      setUpload(res.assets[0]);
+      if (res.didCancel) {
+        console.log('User canceled image picker');
+      } else if (res.error) {
+        console.log('ImagePicker Error: ', res.error);
+      } else {
+        setImage(res.assets[0].uri);
+        setUpload(res.assets[0]);
+      }
     });
   };
   const handleCamera = () => {
@@ -98,8 +104,14 @@ const Profile = props => {
     };
     launchCamera(options, res => {
       console.log('response', res);
-      setImage(res.assets[0].uri);
-      setUpload(res.assets[0]);
+      if (res.didCancel) {
+        console.log('User canceled image picker.');
+      } else if (res.error) {
+        console.log('ImagePicker Error: ', res.error);
+      } else {
+        setImage(res.assets[0].uri);
+        setUpload(res.assets[0]);
+      }
     });
   };
   const requestCameraPermission = async () => {
@@ -171,8 +183,8 @@ const Profile = props => {
             <Ionicons name="pencil" size={20} color="#000" />
             <Text style={styles.textHeading}>Edit</Text>
           </Pressable>
-          <Pressable onPress={() => alertWindow()}>
-            <Text>Submit</Text>
+          <Pressable onPress={() => alertWindow()} style={styles.submitPic}>
+            <Text style={styles.picText}>Submit</Text>
           </Pressable>
           <Text style={styles.nameHeading}>
             {firstName && lastName
