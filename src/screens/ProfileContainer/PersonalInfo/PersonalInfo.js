@@ -73,7 +73,7 @@ const PersonalInfo = props => {
             <TextInput
               style={styles.boxContent}
               defaultValue={firstName}
-              onEndEditing={e => setFirstName(e.nativeEvent.text)}
+              onChangeText={e => setFirstName(e)}
             />
           </View>
           <View style={styles.personalData}>
@@ -81,7 +81,7 @@ const PersonalInfo = props => {
             <TextInput
               style={styles.boxContent}
               defaultValue={lastName}
-              onEndEditing={e => setLastName(e.nativeEvent.text)}
+              onChangeText={e => setLastName(e)}
             />
           </View>
           <View style={styles.personalData}>
