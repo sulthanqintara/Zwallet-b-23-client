@@ -34,6 +34,7 @@ const FinalTransfer = props => {
     'Nov',
     'Dec',
   ];
+  console.log(authInfo);
   const month = monthNames[transactionDate.getMonth()];
   let status = true;
   useEffect(() => {
@@ -132,9 +133,11 @@ const FinalTransfer = props => {
           />
           <View style={styles.contactContainer}>
             <Text style={[styles.nunito700, styles.contactTitle]}>
-              Robert Chandler
+              {authInfo.username}
             </Text>
-            <Text style={[styles.nunito400]}>+62 813-9387-7946</Text>
+            <Text style={[styles.nunito400]}>
+              +62 {authInfo.userPhone ? authInfo.userPhone : '0'}
+            </Text>
           </View>
         </View>
         <Text style={[styles.contentSubTitle, styles.nunito700]}>To</Text>
