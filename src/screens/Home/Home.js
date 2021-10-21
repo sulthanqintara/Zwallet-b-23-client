@@ -59,15 +59,6 @@ const Home = props => {
   let initValue = useRef(true);
   useEffect(() => {
     const params = {user_id: authInfo.userId, limit: 4};
-    getTransaction(params, token)
-      .then(data => setCardData(data.data.result))
-      .catch(err => {
-        console.log(err);
-      });
-    getUserById(authInfo.userId, token).then(data => {
-      console.log(data.data.result[0].userBalance);
-      setBalance(data.data.result[0].userBalance);
-    });
     if (initValue.current) {
       initValue.current = false;
     } else {
@@ -84,6 +75,19 @@ const Home = props => {
     }
   }, [authInfo.userId, props.navigation, token]);
 
+  useEffect(() => {
+    const params = {user_id: authInfo.userId, limit: 4};
+    getTransaction(params, token)
+      .then(data => setCardData(data.data.result))
+      .catch(err => {
+        console.log(err);
+      });
+    getUserById(authInfo.userId, token).then(data => {
+      console.log(data.data.result[0].userBalance);
+      setBalance(data.data.result[0].userBalance);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
