@@ -26,6 +26,7 @@ export default StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 10,
+    marginVertical: 10,
   },
   nameHeading: {
     fontFamily: 'NunitoSans-Bold',
@@ -57,5 +58,19 @@ export default StyleSheet.create({
     fontFamily: 'NunitoSans-Bold',
     fontSize: 16,
     color: '#4D4B57',
+  },
+  submitPic: {
+    backgroundColor: '#6379F4',
+    borderRadius: 10,
+    width: '30%',
+    height: '20%',
+    marginVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  picText: {
+    fontFamily: 'NunitoSans-Bold',
+    fontSize: 18,
+    color: '#FFF',
   },
 });
