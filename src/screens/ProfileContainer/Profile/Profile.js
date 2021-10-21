@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -31,25 +31,36 @@ const Profile = props => {
   const [image, setImage] = useState(profilePlaceHolder);
   const [upload, setUpload] = useState();
 
+  let initValue = useRef(true);
+
+  useEffect(() => {
+    if (initValue.current) {
+      initValue.current = false;
+    } else {
+      const params = authInfo.userId;
+
+      const unsubscribe = props.navigation.addListener('focus', () => {
+        getUserById(params, token).then(data => {
+          console.log('data usernya', data.data.result[0]);
+          setFirstName(data.data.result[0].userFirstName);
+          setLastName(data.data.result[0].userLastName);
+          setPhone(data.data.result[0].userPhone);
+        });
+      });
+      return unsubscribe;
+    }
+  }, [authInfo.userId, props.navigation, token]);
+
   useEffect(() => {
     const params = authInfo.userId;
-
-    const unsubscribe = props.navigation.addListener('focus', () => {
-      getUserById(params, token).then(data => {
-        console.log('data usernya', data.data.result[0]);
-        setFirstName(data.data.result[0].userFirstName);
-        setLastName(data.data.result[0].userLastName);
-        setPhone(data.data.result[0].userPhone);
-      });
-    });
     getUserById(params, token).then(data => {
       console.log('data usernya', data.data.result[0]);
       setFirstName(data.data.result[0].userFirstName);
       setLastName(data.data.result[0].userLastName);
       setPhone(data.data.result[0].userPhone);
     });
-    return unsubscribe;
-  }, [authInfo.userId, props.navigation, token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const alertWindow = () => {
     const title = 'Submit Profile Changes';
