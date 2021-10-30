@@ -4,6 +4,7 @@ import styles from './Style';
 import {connect, useSelector} from 'react-redux';
 import {getUserById} from '../../../utils/https/users';
 import {updateUserAction} from '../../../redux/actionCreators/auth';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const PersonalInfo = props => {
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
@@ -59,7 +60,7 @@ const PersonalInfo = props => {
     return unsubscribe;
   }, [authInfo.userId, props.navigation, token]);
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.content}>
         <View style={styles.passage}>
           <Text style={styles.passageText}>
@@ -113,7 +114,7 @@ const PersonalInfo = props => {
           </Pressable>
         </View>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

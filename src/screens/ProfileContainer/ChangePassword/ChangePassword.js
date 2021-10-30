@@ -1,9 +1,17 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, Pressable, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  Alert,
+  KeyboardAvoidingView,
+} from 'react-native';
 import styles from './Style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect, useSelector} from 'react-redux';
 import {updatePassword} from '../../../utils/https/auth';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const ChangePassword = props => {
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
@@ -56,7 +64,7 @@ const ChangePassword = props => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.content}>
         <View style={styles.passArea}>
           <Text style={styles.passage}>
@@ -124,12 +132,14 @@ const ChangePassword = props => {
           </View>
         )}
         <View style={styles.buttonArea}>
-          <Pressable style={styles.changeButton} onPress={() => alertWindow()}>
-            <Text style={styles.buttonText}>Change Password</Text>
+          <Pressable
+            style={styles.changeButtonActive}
+            onPress={() => alertWindow()}>
+            <Text style={styles.buttonTextActive}>Change Password</Text>
           </Pressable>
         </View>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 
