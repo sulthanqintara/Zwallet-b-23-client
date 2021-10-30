@@ -55,7 +55,7 @@ export default StyleSheet.create({
   },
   changeButtonActive: {
     width: '100%',
-    height: '40%',
+    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#6379F4',

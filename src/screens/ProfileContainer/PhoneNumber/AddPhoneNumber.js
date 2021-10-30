@@ -57,8 +57,10 @@ const AddPhoneNumber = props => {
           </View>
         </View>
         <View style={styles.buttonArea}>
-          <Pressable style={styles.changeButton} onPress={() => alertWindow()}>
-            <Text style={styles.buttonText}>Add Phone Number</Text>
+          <Pressable
+            style={styles.changeButtonActive}
+            onPress={() => alertWindow()}>
+            <Text style={styles.buttonTextActive}>Add Phone Number</Text>
           </Pressable>
         </View>
       </View>

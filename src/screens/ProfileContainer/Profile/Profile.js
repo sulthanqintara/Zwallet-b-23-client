@@ -120,7 +120,7 @@ const Profile = props => {
       } else if (res.error) {
         console.log('ImagePicker Error: ', res.error);
       } else {
-        setImage(res.assets[0].uri);
+        setImage(res.assets[0]);
         setUpload(res.assets[0]);
       }
     });
@@ -200,7 +200,7 @@ const Profile = props => {
           <Text style={styles.nameHeading}>
             {firstName && lastName
               ? `${firstName} ${lastName}`
-              : `${authInfo.userUsername}`}
+              : `${authInfo.username}`}
           </Text>
           <Text style={styles.textHeading}>
             {phone ? phone : 'No number yet'}
