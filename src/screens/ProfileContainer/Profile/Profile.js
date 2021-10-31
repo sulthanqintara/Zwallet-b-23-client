@@ -53,12 +53,19 @@ const Profile = props => {
 
   useEffect(() => {
     const params = authInfo.userId;
-    getUserById(params, token).then(data => {
-      console.log('data usernya', data.data.result[0]);
-      setFirstName(data.data.result[0].userFirstName);
-      setLastName(data.data.result[0].userLastName);
-      setPhone(data.data.result[0].userPhone);
-    });
+    getUserById(params, token)
+      .then(data => {
+        console.log('data usernya', data.data.result[0]);
+        setFirstName(data.data.result[0].userFirstName);
+        setLastName(data.data.result[0].userLastName);
+        setPhone(data.data.result[0].userPhone);
+      })
+      .catch(error => {
+        const newErr = String(error);
+        if (newErr.includes('403') === true) {
+          return logoutHandler();
+        }
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

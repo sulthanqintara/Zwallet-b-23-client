@@ -12,7 +12,7 @@ const AddPhoneNumber = props => {
 
   const submitChanges = () => {
     console.log(phone);
-    const queries = new FormData();
+    const queries = new URLSearchParams();
     const userId = authInfo.userId;
     const phoneNumber = '0'.concat(phone);
     console.log(phoneNumber);

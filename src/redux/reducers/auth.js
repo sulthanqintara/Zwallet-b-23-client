@@ -7,6 +7,7 @@ const initialState = {
   isRejected: false,
   isLogin: false,
   error: {},
+  status: '',
   token: '',
 };
 
@@ -31,6 +32,7 @@ const authReducer = (prevState = initialState, action) => {
         error: action.payload,
       };
     case 'LOGIN'.concat('_', Fulfilled):
+      console.log('actionnya: ', action.payload);
       return {
         ...prevState,
         isPending: false,
@@ -93,6 +95,7 @@ const authReducer = (prevState = initialState, action) => {
         isPending: true,
         isRejected: false,
         isFulfilled: false,
+        error: '',
       };
     case 'UPDATE_PROFILE'.concat('_', Rejected):
       return {
@@ -102,13 +105,14 @@ const authReducer = (prevState = initialState, action) => {
         error: action.payload,
       };
     case 'UPDATE_PROFILE'.concat('_', Fulfilled):
+      console.log('this is the action payload data: ', action.payload);
       return {
         ...prevState,
         isPending: false,
         isFulfilled: true,
         error: '',
         authInfo: action.payload.data.result[0],
-        isLogin: false,
+        status: action.payload.status,
       };
     default:
       return prevState;
