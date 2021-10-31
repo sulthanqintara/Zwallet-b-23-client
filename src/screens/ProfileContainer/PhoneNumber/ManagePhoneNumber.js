@@ -10,7 +10,7 @@ const ManagePhoneNumber = props => {
   const token = useSelector(reduxState => reduxState.auth.token);
 
   const submitChanges = () => {
-    const queries = new FormData();
+    const queries = new URLSearchParams();
     const userId = authInfo.userId;
     queries.append('phone', '');
     props.onUpdate(userId, queries, token);
