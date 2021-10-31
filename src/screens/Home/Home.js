@@ -8,10 +8,11 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {connect, useSelector} from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import {logoutAction} from '../../redux/actionCreators/auth';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import socket from '../../utils/socket/SocketIo';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './Style';
 import profilePlaceHolder from '../../assets/img/user.png';
 import {API_URL} from '@env';
@@ -27,6 +28,8 @@ const Home = props => {
   const [isLoading, setIsLoading] = useState(true);
   const token = useSelector(reduxState => reduxState.auth.token);
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
+  const dispatch = useDispatch();
+
   useFocusEffect(
     useCallback(() => {
       const backAction = () => {
@@ -72,17 +75,24 @@ const Home = props => {
           })
           .catch(err => {
             setIsLoading(false);
-            console.log(err);
+            console.log(err, err.response);
+            if (String(err).includes('403')) {
+              socket.off(`transaction_${authInfo.userId}`);
+              dispatch(logoutAction(token));
+              return props.navigation.reset({
+                index: 0,
+                routes: [{name: 'Login'}],
+              });
+            }
           });
         getUserById(authInfo.userId, token).then(data => {
-          console.log(data.data.result[0].userBalance);
           setBalance(data.data.result[0].userBalance);
           setIsLoading(false);
         });
       });
       return unsubscribe;
     }
-  }, [authInfo.userId, props.navigation, token]);
+  }, [authInfo.userId, dispatch, props.navigation, token]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -93,14 +103,27 @@ const Home = props => {
         setIsLoading(false);
       })
       .catch(err => {
-        console.log(err);
+        console.log(err, err.response);
+        setIsLoading(false);
+        if (String(err).includes('403')) {
+          socket.off(`transaction_${authInfo.userId}`);
+          dispatch(logoutAction(token));
+          return props.navigation.reset({
+            index: 0,
+            routes: [{name: 'Login'}],
+          });
+        }
+      });
+    getUserById(authInfo.userId, token)
+      .then(data => {
+        console.log(data.data.result[0].userBalance);
+        setBalance(data.data.result[0].userBalance);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err, err.response);
         setIsLoading(false);
       });
-    getUserById(authInfo.userId, token).then(data => {
-      console.log(data.data.result[0].userBalance);
-      setBalance(data.data.result[0].userBalance);
-      setIsLoading(false);
-    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

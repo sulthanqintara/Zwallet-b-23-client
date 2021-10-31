@@ -3,39 +3,60 @@ import {View, Text, Pressable, TextInput, FlatList, Image} from 'react-native';
 import styles from './Styles';
 import {API_URL} from '@env';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import socket from '../../../utils/socket/SocketIo';
 
 import profilePlaceHolder from '../../../assets/img/user.png';
 import {getUsers} from '../../../utils/https/users';
 import axios from 'axios';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {logoutAction} from '../../../redux/actionCreators/auth';
 
 const FindReceiver = props => {
   const [nextPage, setNexPage] = useState(null);
   const [data, setData] = useState([]);
   const [totalData, setTotalData] = useState([]);
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
-
+  const dispatch = useDispatch();
+  const token = useSelector(reduxState => reduxState.auth.token);
   const searchHandler = keyword => {
     let params = {};
     if (keyword) {
       params = {...params, keyword};
     }
-    getUsers(params).then(result => {
-      console.log(result.data.result);
-      setData(result.data.result.data);
-      setNexPage(result.data.result.nextPage);
-      setTotalData(result.data.result.totalData);
-    });
+    getUsers(params, token)
+      .then(result => {
+        console.log(result.data.result);
+        setData(result.data.result.data);
+        setNexPage(result.data.result.nextPage);
+        setTotalData(result.data.result.totalData);
+      })
+      .catch(err => {
+        console.log(err.response);
+        setData([]);
+        setTotalData(0);
+      });
   };
 
   useEffect(() => {
-    getUsers({}).then(result => {
-      console.log(result.data.result);
-      setData(result.data.result.data);
-      setNexPage(result.data.result.nextPage);
-      setTotalData(result.data.result.totalData);
-    });
-  }, []);
+    getUsers({}, token)
+      .then(result => {
+        console.log(result.data.result);
+        setData(result.data.result.data);
+        setNexPage(result.data.result.nextPage);
+        setTotalData(result.data.result.totalData);
+      })
+      .catch(err => {
+        console.log(err.response);
+        if (String(err).includes('403')) {
+          socket.off(`transaction_${authInfo.userId}`);
+          dispatch(logoutAction(token));
+          props.navigation.reset({
+            index: 0,
+            routes: [{name: 'Login'}],
+          });
+        }
+      });
+  }, [authInfo.userId, dispatch, props.navigation, token]);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -63,7 +84,7 @@ const FindReceiver = props => {
       </View>
       <Text style={[styles.contentTitle, styles.nunito700]}>Contacts</Text>
       <Text style={[styles.contentSubTitle, styles.nunito400]}>
-        {totalData - 1} Contacts Found
+        {totalData ? totalData - 1 : 0} Contacts Found
       </Text>
       <FlatList
         data={data}
@@ -91,13 +112,17 @@ const FindReceiver = props => {
         keyExtractor={(_, index) => index}
         onEndReached={() => {
           nextPage !== null &&
-            axios.get(API_URL + nextPage).then(result => {
-              setNexPage(result.data.result.nextPage);
-              return setData(prevState => [
-                ...prevState,
-                ...result.data.result.data,
-              ]);
-            });
+            axios
+              .get(API_URL + nextPage, {
+                headers: {'x-access-token': `Bearer ${token}`},
+              })
+              .then(result => {
+                setNexPage(result.data.result.nextPage);
+                return setData(prevState => [
+                  ...prevState,
+                  ...result.data.result.data,
+                ]);
+              });
         }}
       />
     </View>

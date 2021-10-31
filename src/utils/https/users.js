@@ -13,8 +13,11 @@ export const editUser = (id, body, token) => {
   });
 };
 
-export const getUsers = params => {
-  return axios.get(`${API_URL}/users`, {params});
+export const getUsers = (params, token) => {
+  return axios.get(`${API_URL}/users`, {
+    params,
+    headers: {'x-access-token': `Bearer ${token}`},
+  });
 };
 
 export const verifyToken = (body, token) => {
