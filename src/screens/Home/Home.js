@@ -24,6 +24,7 @@ const Home = props => {
   const [backButton, setBackButton] = useState(0);
   const [timer, setTimer] = useState(Date.now());
   const [cardData, setCardData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const token = useSelector(reduxState => reduxState.auth.token);
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
   useFocusEffect(
@@ -58,17 +59,25 @@ const Home = props => {
   );
   let initValue = useRef(true);
   useEffect(() => {
+    setIsLoading(true);
     const params = {user_id: authInfo.userId, limit: 4};
     if (initValue.current) {
       initValue.current = false;
     } else {
       const unsubscribe = props.navigation.addListener('focus', () => {
-        getTransaction(params, token).then(data =>
-          setCardData(data.data.result),
-        );
+        getTransaction(params, token)
+          .then(data => {
+            setIsLoading(false);
+            setCardData(data.data.result);
+          })
+          .catch(err => {
+            setIsLoading(false);
+            console.log(err);
+          });
         getUserById(authInfo.userId, token).then(data => {
           console.log(data.data.result[0].userBalance);
           setBalance(data.data.result[0].userBalance);
+          setIsLoading(false);
         });
       });
       return unsubscribe;
@@ -76,15 +85,21 @@ const Home = props => {
   }, [authInfo.userId, props.navigation, token]);
 
   useEffect(() => {
+    setIsLoading(true);
     const params = {user_id: authInfo.userId, limit: 4};
     getTransaction(params, token)
-      .then(data => setCardData(data.data.result))
+      .then(data => {
+        setCardData(data.data.result);
+        setIsLoading(false);
+      })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
     getUserById(authInfo.userId, token).then(data => {
       console.log(data.data.result[0].userBalance);
       setBalance(data.data.result[0].userBalance);
+      setIsLoading(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -149,6 +164,9 @@ const Home = props => {
             </Pressable>
           </View>
         </View>
+        {!isLoading && !cardData?.transactionData && (
+          <Text style={styles.textCenter}>No Data</Text>
+        )}
         {cardData.transactionData?.map(data => {
           let cardPicture = '';
           if (authInfo.userId === data.sender_id) {
