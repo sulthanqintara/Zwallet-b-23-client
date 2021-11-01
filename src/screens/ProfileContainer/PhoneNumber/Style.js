@@ -91,4 +91,13 @@ export default StyleSheet.create({
     fontSize: 22,
     color: '#514F5B',
   },
+  wrapperError: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  textError: {
+    color: '#FF5B37',
+    fontFamily: 'NunitoSans-SemiBold',
+    fontSize: 16,
+  },
 });
