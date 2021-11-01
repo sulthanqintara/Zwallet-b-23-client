@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, TextInput, Pressable, TouchableOpacity} from 'react-native';
-import SpinnerButton from 'react-native-spinner-button';
 import styles from './Style';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
@@ -102,7 +101,7 @@ const Login = props => {
             <Text style={styles.textError}>{error}</Text>
           </View>
         )}
-        {userLogin && password !== '' ? (
+        {userLogin && password !== '' && loading === false ? (
           <View style={styles.wrapperButton}>
             <TouchableOpacity style={styles.buttonActive} onPress={onSubmit}>
               <Text style={styles.buttonTextActive}>Login</Text>
@@ -115,13 +114,13 @@ const Login = props => {
             </View>
           </View>
         )}
-        {/* {loading === true && (
+        {loading === true && (
           <View style={styles.wrapperButton}>
             <View style={styles.button}>
               <Text style={styles.buttonText}>Loading . . .</Text>
             </View>
           </View>
-        )} */}
+        )}
         <View style={styles.textBottom}>
           <Text style={styles.textDontHave}>Don’t have an account? Let’s </Text>
           <Pressable onPress={() => props.navigation.navigate('Register')}>
