@@ -88,13 +88,13 @@ const ResetPassword = props => {
             </View>
           </View>
         )}
-        {/* {loading === true && (
+        {loading === true && (
           <View style={styles.wrapperButton}>
             <View style={styles.button}>
               <Text style={styles.buttonText}>Loading . . .</Text>
             </View>
           </View>
-        )} */}
+        )}
       </View>
     </View>
   );
