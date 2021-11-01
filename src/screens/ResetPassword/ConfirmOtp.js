@@ -30,7 +30,15 @@ const ConfirmOtp = props => {
           ToastAndroid.SHORT,
         );
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        if (err.message.includes('404') === true) {
+          return ToastAndroid.show(
+            'Code invalid! Please input valid code',
+            ToastAndroid.SHORT,
+          );
+        }
+      });
   };
 
   return (

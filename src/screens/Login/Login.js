@@ -12,6 +12,7 @@ const Login = props => {
   const [userLogin, setUserLogin] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
+  const loading = props.auth.isLoading;
 
   const onSubmit = () => {
     if (userLogin === '') {
@@ -100,7 +101,7 @@ const Login = props => {
             <Text style={styles.textError}>{error}</Text>
           </View>
         )}
-        {userLogin && password !== '' ? (
+        {userLogin && password !== '' && loading === false ? (
           <View style={styles.wrapperButton}>
             <TouchableOpacity style={styles.buttonActive} onPress={onSubmit}>
               <Text style={styles.buttonTextActive}>Login</Text>
@@ -113,7 +114,13 @@ const Login = props => {
             </View>
           </View>
         )}
-
+        {loading === true && (
+          <View style={styles.wrapperButton}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Loading . . .</Text>
+            </View>
+          </View>
+        )}
         <View style={styles.textBottom}>
           <Text style={styles.textDontHave}>Don’t have an account? Let’s </Text>
           <Pressable onPress={() => props.navigation.navigate('Register')}>

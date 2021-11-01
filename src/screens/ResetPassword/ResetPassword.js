@@ -11,10 +11,13 @@ import {
 import styles from './Style';
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
+import {connect} from 'react-redux';
 
 const ResetPassword = props => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
+  const loading = props.auth.isLoading;
+  console.log(loading);
 
   const onSubmit = () => {
     if (email === '') {
@@ -33,7 +36,12 @@ const ResetPassword = props => {
         props.navigation.replace('Confirm-Otp', {email});
         return ToastAndroid.show('Success get code', ToastAndroid.SHORT);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err.message);
+        if (err.message.includes(404) === true) {
+          return setError('Email not found!');
+        }
+      });
   };
 
   return (
@@ -65,7 +73,7 @@ const ResetPassword = props => {
             <Text style={styles.textError}>{error}</Text>
           </View>
         )}
-        {email !== '' ? (
+        {email !== '' && loading === false ? (
           <View style={styles.wrapperButton}>
             <TouchableOpacity
               style={[styles.button, {backgroundColor: '#6379F4'}]}
@@ -80,9 +88,22 @@ const ResetPassword = props => {
             </View>
           </View>
         )}
+        {loading === true && (
+          <View style={styles.wrapperButton}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Loading . . .</Text>
+            </View>
+          </View>
+        )}
       </View>
     </View>
   );
 };
 
-export default ResetPassword;
+const mapStateToProps = ({auth}) => {
+  return {
+    auth,
+  };
+};
+
+export default connect(mapStateToProps)(ResetPassword);

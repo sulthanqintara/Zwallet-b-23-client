@@ -4,8 +4,10 @@ import {postRegister} from '../../utils/https/auth';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './Style';
 import styles2 from '../TransferFlow/Confirmation/Styles';
+import {connect} from 'react-redux';
 
 const CreatePin = props => {
+  const loading = props.auth.isLoading;
   const {route} = props;
   const dataRegister = route.params;
   const username = dataRegister.data.username;
@@ -74,6 +76,13 @@ const CreatePin = props => {
                   Confirm
                 </Text>
               </Pressable>
+            )}
+            {loading === true && (
+              <View style={styles.wrapperButton}>
+                <View style={styles.button}>
+                  <Text style={styles.buttonText}>Loading . . .</Text>
+                </View>
+              </View>
             )}
             <View style={styles.numPadRow}>
               <Pressable
@@ -170,4 +179,10 @@ const CreatePin = props => {
   );
 };
 
-export default CreatePin;
+const mapStateToProps = ({auth}) => {
+  return {
+    auth,
+  };
+};
+
+export default connect(mapStateToProps)(CreatePin);
