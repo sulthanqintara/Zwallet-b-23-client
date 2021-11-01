@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {API_URL} from '@env';
 import {
   View,
@@ -14,9 +14,10 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 
 const ResetPassword = props => {
-  console.log(props.auth.error);
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
+  const loading = props.auth.isLoading;
+  console.log(loading);
 
   const onSubmit = () => {
     if (email === '') {
@@ -42,14 +43,6 @@ const ResetPassword = props => {
         }
       });
   };
-
-  // // const isInitialMount = useRef(true);
-  // useEffect(() => {
-  //   const errorLogin = String(props.auth.error);
-  //   if (errorLogin.includes('404') === true) {
-  //     return setError('Email not found!');
-  //   }
-  // }, [props.auth.isLogin, props.auth.error]);
 
   return (
     <View style={styles.container}>
@@ -80,7 +73,7 @@ const ResetPassword = props => {
             <Text style={styles.textError}>{error}</Text>
           </View>
         )}
-        {email !== '' ? (
+        {email !== '' && loading === false ? (
           <View style={styles.wrapperButton}>
             <TouchableOpacity
               style={[styles.button, {backgroundColor: '#6379F4'}]}
@@ -95,6 +88,13 @@ const ResetPassword = props => {
             </View>
           </View>
         )}
+        {/* {loading === true && (
+          <View style={styles.wrapperButton}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Loading . . .</Text>
+            </View>
+          </View>
+        )} */}
       </View>
     </View>
   );

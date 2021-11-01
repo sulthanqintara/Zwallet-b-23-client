@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, Pressable, TouchableOpacity} from 'react-native';
 import styles from './Style';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {loginAction} from '../../redux/actionCreators/auth';
 import {connect} from 'react-redux';
 
 const Register = props => {
@@ -10,6 +9,7 @@ const Register = props => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
+  const loading = props.auth.isLoading;
 
   const onSubmit = () => {
     if (username === '') {
@@ -94,16 +94,18 @@ const Register = props => {
             <Text style={styles.textError}>{error}</Text>
           </View>
         )}
-        {/* <View style={styles.wrapperButton}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Sign Up</Text>
-          </TouchableOpacity>
-        </View> */}
         <View style={styles.wrapperButton}>
           <TouchableOpacity style={styles.buttonActive} onPress={onSubmit}>
             <Text style={styles.buttonTextActive}>Sign Up</Text>
           </TouchableOpacity>
         </View>
+        {loading === true && (
+          <View style={styles.wrapperButton}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Loading . . .</Text>
+            </View>
+          </View>
+        )}
         <View style={styles.textBottom}>
           <Text style={styles.textDontHave}>
             Already have an account? Let’s
@@ -117,4 +119,10 @@ const Register = props => {
   );
 };
 
-export default Register;
+const mapStateToProps = ({auth}) => {
+  return {
+    auth,
+  };
+};
+
+export default connect(mapStateToProps)(Register);

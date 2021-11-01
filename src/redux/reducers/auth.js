@@ -8,6 +8,7 @@ const initialState = {
   isLogin: false,
   error: {},
   token: '',
+  isLoading: false,
 };
 
 const authReducer = (prevState = initialState, action) => {
@@ -21,6 +22,7 @@ const authReducer = (prevState = initialState, action) => {
         isFulfilled: false,
         isRejected: false,
         error: '',
+        isLoading: true,
       };
     case 'LOGIN'.concat('_', Rejected):
       return {
@@ -29,6 +31,7 @@ const authReducer = (prevState = initialState, action) => {
         isRejected: true,
         isLogin: false,
         error: action.payload,
+        isLoading: false,
       };
     case 'LOGIN'.concat('_', Fulfilled):
       return {
@@ -39,6 +42,7 @@ const authReducer = (prevState = initialState, action) => {
         error: '',
         authInfo: action.payload.data.result.userInfo,
         token: action.payload.data.result.token,
+        isLoading: false,
       };
     case 'LOGOUT'.concat('_', Pending):
       return {
