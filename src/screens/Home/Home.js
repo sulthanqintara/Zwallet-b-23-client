@@ -8,10 +8,11 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {connect, useSelector} from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import {logoutAction} from '../../redux/actionCreators/auth';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import socket from '../../utils/socket/SocketIo';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './Style';
 import profilePlaceHolder from '../../assets/img/user.png';
 import {API_URL} from '@env';
@@ -24,8 +25,11 @@ const Home = props => {
   const [backButton, setBackButton] = useState(0);
   const [timer, setTimer] = useState(Date.now());
   const [cardData, setCardData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const token = useSelector(reduxState => reduxState.auth.token);
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
+  const dispatch = useDispatch();
+
   useFocusEffect(
     useCallback(() => {
       const backAction = () => {
@@ -58,34 +62,68 @@ const Home = props => {
   );
   let initValue = useRef(true);
   useEffect(() => {
+    setIsLoading(true);
     const params = {user_id: authInfo.userId, limit: 4};
     if (initValue.current) {
       initValue.current = false;
     } else {
       const unsubscribe = props.navigation.addListener('focus', () => {
-        getTransaction(params, token).then(data =>
-          setCardData(data.data.result),
-        );
+        getTransaction(params, token)
+          .then(data => {
+            setIsLoading(false);
+            setCardData(data.data.result);
+          })
+          .catch(err => {
+            setIsLoading(false);
+            console.log(err, err.response);
+            if (String(err).includes('403')) {
+              socket.off(`transaction_${authInfo.userId}`);
+              dispatch(logoutAction(token));
+              return props.navigation.reset({
+                index: 0,
+                routes: [{name: 'Login'}],
+              });
+            }
+          });
         getUserById(authInfo.userId, token).then(data => {
-          console.log(data.data.result[0].userBalance);
           setBalance(data.data.result[0].userBalance);
+          setIsLoading(false);
         });
       });
       return unsubscribe;
     }
-  }, [authInfo.userId, props.navigation, token]);
+  }, [authInfo.userId, dispatch, props.navigation, token]);
 
   useEffect(() => {
+    setIsLoading(true);
     const params = {user_id: authInfo.userId, limit: 4};
     getTransaction(params, token)
-      .then(data => setCardData(data.data.result))
+      .then(data => {
+        setCardData(data.data.result);
+        setIsLoading(false);
+      })
       .catch(err => {
-        console.log(err);
+        console.log(err, err.response);
+        setIsLoading(false);
+        if (String(err).includes('403')) {
+          socket.off(`transaction_${authInfo.userId}`);
+          dispatch(logoutAction(token));
+          return props.navigation.reset({
+            index: 0,
+            routes: [{name: 'Login'}],
+          });
+        }
       });
-    getUserById(authInfo.userId, token).then(data => {
-      console.log(data.data.result[0].userBalance);
-      setBalance(data.data.result[0].userBalance);
-    });
+    getUserById(authInfo.userId, token)
+      .then(data => {
+        console.log(data.data.result[0].userBalance);
+        setBalance(data.data.result[0].userBalance);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err, err.response);
+        setIsLoading(false);
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -149,6 +187,9 @@ const Home = props => {
             </Pressable>
           </View>
         </View>
+        {!isLoading && !cardData?.transactionData && (
+          <Text style={styles.textCenter}>No Data</Text>
+        )}
         {cardData.transactionData?.map(data => {
           let cardPicture = '';
           if (authInfo.userId === data.sender_id) {

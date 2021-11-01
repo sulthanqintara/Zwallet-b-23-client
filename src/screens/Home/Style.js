@@ -117,4 +117,7 @@ export default StyleSheet.create({
     fontSize: 18,
     fontFamily: 'NunitoSans-SemiBold',
   },
+  textCenter: {
+    textAlign: 'center',
+  },
 });

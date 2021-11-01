@@ -1,4 +1,4 @@
-# **Zwallet Mobile - BACKEND**
+# **Zwallet Mobile - FRONTEND**
 
 Zwallet is a mobile application that is useful as an online wallet to help users save money online and can facilitate transactions with other users easily.
 
