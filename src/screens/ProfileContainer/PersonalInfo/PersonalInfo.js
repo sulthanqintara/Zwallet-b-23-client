@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -44,10 +44,10 @@ const PersonalInfo = props => {
     }
   };
 
-  const logoutHandler = () => {
+  const logoutHandler = useCallback(() => {
     socket.off(`transaction_${authInfo.userId}`);
     props.onLogout(token, props.navigation.replace('Login'));
-  };
+  }, [authInfo.userId, props, token]);
 
   const alertWindow = () => {
     const title = 'Submit Profile Changes';
@@ -67,7 +67,6 @@ const PersonalInfo = props => {
 
   useEffect(() => {
     const params = authInfo.userId;
-
     const unsubscribe = props.navigation.addListener('focus', () => {
       getUserById(params, token)
         .then(data => {
@@ -77,28 +76,15 @@ const PersonalInfo = props => {
           setPhone(data.data.result[0].userPhone);
         })
         .catch(error => {
-          console.log(error);
+          const newErr = String(error);
+          if (newErr.includes('403') === true) {
+            return logoutHandler();
+          }
         });
     });
     return unsubscribe;
-  }, [authInfo.userId, props.navigation, token]);
+  }, [authInfo.userId, logoutHandler, props.navigation, token]);
 
-  useEffect(() => {
-    const params = authInfo.userId;
-    getUserById(params, token)
-      .then(data => {
-        setFirstName(data.data.result[0].userFirstName);
-        setLastName(data.data.result[0].userLastName);
-        setEmail(data.data.result[0].userEmail);
-        setPhone(data.data.result[0].userPhone);
-      })
-      .catch(error => {
-        const newErr = String(error);
-        if (newErr.includes('403') === true) {
-          return logoutHandler();
-        }
-      });
-  });
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.content}>

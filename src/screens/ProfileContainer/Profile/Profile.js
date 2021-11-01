@@ -38,13 +38,14 @@ const Profile = props => {
       initValue.current = false;
     } else {
       const params = authInfo.userId;
-
+      console.log('does this rerender?', params);
       const unsubscribe = props.navigation.addListener('focus', () => {
         getUserById(params, token).then(data => {
           console.log('data usernya', data.data.result[0]);
           setFirstName(data.data.result[0].userFirstName);
           setLastName(data.data.result[0].userLastName);
           setPhone(data.data.result[0].userPhone);
+          setImage(data.data.result[0].userImage);
         });
       });
       return unsubscribe;

@@ -58,6 +58,11 @@ const AddPhoneNumber = props => {
             />
           </View>
         </View>
+        {error && (
+          <View style={styles.wrapperError}>
+            <Text style={styles.textError}>{error}</Text>
+          </View>
+        )}
         <View style={styles.buttonArea}>
           <Pressable
             style={styles.changeButtonActive}
