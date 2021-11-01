@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {API_URL} from '@env';
 import {
   View,
@@ -11,8 +11,10 @@ import {
 import styles from './Style';
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
+import {connect} from 'react-redux';
 
 const ResetPassword = props => {
+  console.log(props.auth.error);
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
 
@@ -33,8 +35,21 @@ const ResetPassword = props => {
         props.navigation.replace('Confirm-Otp', {email});
         return ToastAndroid.show('Success get code', ToastAndroid.SHORT);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err.message);
+        if (err.message.includes(404) === true) {
+          return setError('Email not found!');
+        }
+      });
   };
+
+  // // const isInitialMount = useRef(true);
+  // useEffect(() => {
+  //   const errorLogin = String(props.auth.error);
+  //   if (errorLogin.includes('404') === true) {
+  //     return setError('Email not found!');
+  //   }
+  // }, [props.auth.isLogin, props.auth.error]);
 
   return (
     <View style={styles.container}>
@@ -85,4 +100,10 @@ const ResetPassword = props => {
   );
 };
 
-export default ResetPassword;
+const mapStateToProps = ({auth}) => {
+  return {
+    auth,
+  };
+};
+
+export default connect(mapStateToProps)(ResetPassword);

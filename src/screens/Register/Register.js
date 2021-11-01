@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, Pressable, TouchableOpacity} from 'react-native';
 import styles from './Style';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {loginAction} from '../../redux/actionCreators/auth';
+import {connect} from 'react-redux';
 
 const Register = props => {
   const [email, setEmail] = useState('');
@@ -34,6 +36,7 @@ const Register = props => {
 
     props.navigation.replace('Create-Pin', {data});
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
