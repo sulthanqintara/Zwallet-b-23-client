@@ -1,24 +1,52 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Pressable, TextInput, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  Alert,
+  ToastAndroid,
+} from 'react-native';
 import styles from './Style';
 import {connect, useSelector} from 'react-redux';
 import {getUserById} from '../../../utils/https/users';
+import {logoutAction} from '../../../redux/actionCreators/auth';
 import {updateUserAction} from '../../../redux/actionCreators/auth';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import socket from '../../../utils/socket/SocketIo';
 
 const PersonalInfo = props => {
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
   const token = useSelector(reduxState => reduxState.auth.token);
+  const status = useSelector(reduxState => reduxState.auth.status);
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
   const [phone, setPhone] = useState();
 
   const submitChanges = () => {
-    const queries = new FormData();
     const userId = authInfo.userId;
+    const queries = new URLSearchParams();
     queries.append('first_name', firstName);
     queries.append('last_name', lastName);
     props.onUpdate(userId, queries, token);
+    console.log(status);
+    if (status === 403) {
+      ToastAndroid.show(
+        'Session expired. Please log in again.',
+        ToastAndroid.SHORT,
+      );
+      logoutHandler();
+    }
+    if (status === 200) {
+      ToastAndroid.show('User data updated successfully!', ToastAndroid.SHORT);
+      props.navigation.pop(1);
+    }
+  };
+
+  const logoutHandler = () => {
+    socket.off(`transaction_${authInfo.userId}`);
+    props.onLogout(token, props.navigation.replace('Login'));
   };
 
   const alertWindow = () => {
@@ -41,25 +69,38 @@ const PersonalInfo = props => {
     const params = authInfo.userId;
 
     const unsubscribe = props.navigation.addListener('focus', () => {
-      getUserById(params, token).then(data => {
-        console.log('data usernya', data.data.result[0]);
+      getUserById(params, token)
+        .then(data => {
+          setFirstName(data.data.result[0].userFirstName);
+          setLastName(data.data.result[0].userLastName);
+          setEmail(data.data.result[0].userEmail);
+          setPhone(data.data.result[0].userPhone);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+    return unsubscribe;
+  }, [authInfo.userId, props.navigation, token]);
+
+  useEffect(() => {
+    const params = authInfo.userId;
+    getUserById(params, token)
+      .then(data => {
         setFirstName(data.data.result[0].userFirstName);
         setLastName(data.data.result[0].userLastName);
         setEmail(data.data.result[0].userEmail);
         setPhone(data.data.result[0].userPhone);
+      })
+      .catch(error => {
+        const newErr = String(error);
+        if (newErr.includes('403') === true) {
+          return logoutHandler();
+        }
       });
-    });
-    getUserById(params, token).then(data => {
-      console.log('data usernya', data.data.result[0]);
-      setFirstName(data.data.result[0].userFirstName);
-      setLastName(data.data.result[0].userLastName);
-      setEmail(data.data.result[0].userEmail);
-      setPhone(data.data.result[0].userPhone);
-    });
-    return unsubscribe;
-  }, [authInfo.userId, props.navigation, token]);
+  });
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.content}>
         <View style={styles.passage}>
           <Text style={styles.passageText}>
@@ -72,6 +113,7 @@ const PersonalInfo = props => {
             <Text style={styles.boxHeading}>First Name</Text>
             <TextInput
               style={styles.boxContent}
+              placeholder="First name..."
               defaultValue={firstName}
               onChangeText={e => setFirstName(e)}
             />
@@ -80,6 +122,7 @@ const PersonalInfo = props => {
             <Text style={styles.boxHeading}>Last Name</Text>
             <TextInput
               style={styles.boxContent}
+              placeholder="Last name..."
               defaultValue={lastName}
               onChangeText={e => setLastName(e)}
             />
@@ -113,7 +156,7 @@ const PersonalInfo = props => {
           </Pressable>
         </View>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -127,6 +170,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onUpdate: (id, body, token) => {
       dispatch(updateUserAction(id, body, token));
+    },
+    onLogout: token => {
+      dispatch(logoutAction(token));
     },
   };
 };

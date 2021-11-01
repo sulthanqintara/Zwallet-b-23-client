@@ -12,7 +12,7 @@ const AddPhoneNumber = props => {
 
   const submitChanges = () => {
     console.log(phone);
-    const queries = new FormData();
+    const queries = new URLSearchParams();
     const userId = authInfo.userId;
     const phoneNumber = '0'.concat(phone);
     console.log(phoneNumber);
@@ -57,8 +57,10 @@ const AddPhoneNumber = props => {
           </View>
         </View>
         <View style={styles.buttonArea}>
-          <Pressable style={styles.changeButton} onPress={() => alertWindow()}>
-            <Text style={styles.buttonText}>Add Phone Number</Text>
+          <Pressable
+            style={styles.changeButtonActive}
+            onPress={() => alertWindow()}>
+            <Text style={styles.buttonTextActive}>Add Phone Number</Text>
           </Pressable>
         </View>
       </View>

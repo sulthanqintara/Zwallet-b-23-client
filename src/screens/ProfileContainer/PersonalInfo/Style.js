@@ -4,14 +4,16 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FAFCFF',
+    height: '100%',
   },
   content: {
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     height: '100%',
   },
   passage: {
-    height: '20%',
+    marginTop: 150,
+    height: '25%',
     width: '90%',
   },
   passageText: {
@@ -20,14 +22,14 @@ export default StyleSheet.create({
     color: '#7A7886',
   },
   dataArea: {
-    marginTop: -30,
+    // marginTop: 20,
     width: '90%',
-    height: '50%',
+    height: '85%',
   },
   personalData: {
     backgroundColor: '#FFF',
     elevation: 0.5,
-    height: '20%',
+    height: 70,
     marginVertical: 10,
     justifyContent: 'space-evenly',
     paddingHorizontal: 10,
@@ -48,7 +50,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFF',
     elevation: 0.5,
-    height: '20%',
+    height: 70,
     marginVertical: 20,
     justifyContent: 'space-between',
     paddingHorizontal: 10,
@@ -67,8 +69,8 @@ export default StyleSheet.create({
   submitButton: {
     backgroundColor: '#6379F4',
     elevation: 0.5,
-    height: '20%',
-    marginVertical: 10,
+    height: 70,
+    marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 10,

@@ -53,12 +53,19 @@ const Profile = props => {
 
   useEffect(() => {
     const params = authInfo.userId;
-    getUserById(params, token).then(data => {
-      console.log('data usernya', data.data.result[0]);
-      setFirstName(data.data.result[0].userFirstName);
-      setLastName(data.data.result[0].userLastName);
-      setPhone(data.data.result[0].userPhone);
-    });
+    getUserById(params, token)
+      .then(data => {
+        console.log('data usernya', data.data.result[0]);
+        setFirstName(data.data.result[0].userFirstName);
+        setLastName(data.data.result[0].userLastName);
+        setPhone(data.data.result[0].userPhone);
+      })
+      .catch(error => {
+        const newErr = String(error);
+        if (newErr.includes('403') === true) {
+          return logoutHandler();
+        }
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -120,7 +127,7 @@ const Profile = props => {
       } else if (res.error) {
         console.log('ImagePicker Error: ', res.error);
       } else {
-        setImage(res.assets[0].uri);
+        setImage(res.assets[0]);
         setUpload(res.assets[0]);
       }
     });
@@ -200,7 +207,7 @@ const Profile = props => {
           <Text style={styles.nameHeading}>
             {firstName && lastName
               ? `${firstName} ${lastName}`
-              : `${authInfo.userUsername}`}
+              : `${authInfo.username}`}
           </Text>
           <Text style={styles.textHeading}>
             {phone ? phone : 'No number yet'}

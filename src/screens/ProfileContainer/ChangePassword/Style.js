@@ -4,6 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF',
+    height: '100%',
   },
   content: {
     marginVertical: 10,
@@ -12,16 +13,19 @@ export default StyleSheet.create({
     height: '100%',
     marginHorizontal: 10,
   },
+  passArea: {
+    marginTop: 100,
+    height: 300,
+    width: '100%',
+    justifyContent: 'space-around',
+  },
   passage: {
+    marginTop: 100,
     fontFamily: 'NunitoSans-Regular',
     fontSize: 16,
     color: '#7A7886',
-  },
-  passArea: {
-    marginTop: 50,
-    height: '50%',
-    width: '100%',
-    justifyContent: 'space-around',
+    height: 100,
+    marginBottom: 30,
   },
   passContainer: {
     flexDirection: 'row',
@@ -30,6 +34,10 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
     borderBottomWidth: 1,
     paddingHorizontal: 10,
+    // marginVertical: 100,
+    marginTop: 100,
+    marginBottom: 50,
+    height: 70,
   },
   textInput: {
     borderBottomColor: '#A9A9A9',
@@ -37,12 +45,13 @@ export default StyleSheet.create({
     flex: 1,
   },
   buttonArea: {
-    height: '20%',
+    marginTop: 100,
+    height: 150,
     width: '100%',
   },
   changeButton: {
     width: '100%',
-    height: '40%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#DADADA',
@@ -68,7 +77,8 @@ export default StyleSheet.create({
   },
   wrapperError: {
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 50,
+    height: 20,
   },
   textError: {
     color: '#FF5B37',
