@@ -9,13 +9,15 @@ const AddPhoneNumber = props => {
   const authInfo = useSelector(reduxState => reduxState.auth.authInfo);
   const token = useSelector(reduxState => reduxState.auth.token);
   const [phone, setPhone] = useState();
+  const [error, setError] = useState(false);
 
   const submitChanges = () => {
-    console.log(phone);
-    const queries = new URLSearchParams();
     const userId = authInfo.userId;
     const phoneNumber = '0'.concat(phone);
-    console.log(phoneNumber);
+    if (phoneNumber.length < 11) {
+      return setError('Phone number must be 12 digits!');
+    }
+    const queries = new URLSearchParams();
     queries.append('phone', phoneNumber);
     props.onUpdate(userId, queries, token);
     props.navigation.pop(1);
