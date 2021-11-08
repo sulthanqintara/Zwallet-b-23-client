@@ -25,20 +25,25 @@ const TransactionDetail = props => {
   let expense = 0;
   useEffect(() => {
     const date = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    const duration = `${date.getFullYear()}-${
-      date.getMonth() + 1
-    }-${date.getDate()}`;
-    console.log(duration);
+    const duration = date
+      .toISOString()
+      .substr(0, 19)
+      .replace('T', ' ')
+      .split(' ')[0];
     const params = {user_id: auth.userId, limit: 100, start_duration: duration};
 
     const unsubscribe = props.navigation.addListener('focus', () => {
-      getTransaction(params, token).then(data => {
+      getTransaction(params, token)
+        .then(data => {
+          setCardData(data.data.result.transactionData);
+        })
+        .catch(err => console.log(err.response));
+    });
+    getTransaction(params, token)
+      .then(data => {
         setCardData(data.data.result.transactionData);
-      });
-    });
-    getTransaction(params, token).then(data => {
-      setCardData(data.data.result.transactionData);
-    });
+      })
+      .catch(err => console.log(err.response));
     return unsubscribe;
   }, [auth.userId, props.navigation, token]);
 
