@@ -40,8 +40,8 @@ yarn install
 
 STEP 3 : Create ENV
 
-```
-API_URL = "http://yourIPV4:8000"
+```javascript
+API_URL = "http://yourIPV4:8000" //or "https://zwallet-backend-api.herokuapp.com"
 ```
 
 ### **HOW TO RUN**
