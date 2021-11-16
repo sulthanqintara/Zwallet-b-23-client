@@ -68,7 +68,7 @@ yarn android
 
 ### **RELATED PROJECT(S)**
 
-- [Zwallet Backend-Server](https://github.com/sulthanqintara/Zwallet-b-23-client)
+- [Zwallet Backend-Server](https://github.com/sulthanqintara/Zwallet-b-23-server)
 
 <br>
 
